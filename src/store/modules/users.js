@@ -1,13 +1,13 @@
 import { apiClient } from "@/logic/api.js";
 
+
 export const namespaced = true;
 
 export const state = {
-    currentUser: null,
+    currentUser: undefined,
     items: [],
     registrationErrors: {},
     loginError: undefined,
-    authenticationToken: undefined,
 }
 
 export const getters = {
@@ -20,9 +20,6 @@ export const getters = {
     loginError(state) {
         return state.loginError
     },
-    authenticationToken(state) {
-        return state.authenticationToken
-    },
 }
 
 export const mutations = {
@@ -30,7 +27,7 @@ export const mutations = {
         state.items = items;
     },
     SET_CURRENT_USER(state, item) {
-        state.item = item
+        state.currentUser = item
     },
     SET_REGISTRATION_ERRORS(state, item) {
         state.registrationErrors = item
@@ -38,9 +35,6 @@ export const mutations = {
     SET_LOGIN_ERROR(state, item) {
         state.loginError = item
     },
-    SET_AUTHENTICATION_TOKEN(state, item) {
-        state.authenticationToken = item
-    }
 }
 
 export const actions = {
@@ -48,8 +42,7 @@ export const actions = {
         const client = await apiClient
 
         try {
-            let response = await client.apis.authentication.registerUser({}, { requestBody: requestBody })
-            console.log(response)
+            await client.apis.authentication.registerUser({}, { requestBody: requestBody })
             commit('SET_REGISTRATION_ERRORS', {})
         } catch(e) {
             commit('SET_REGISTRATION_ERRORS', e.response.body.detail)
@@ -59,15 +52,23 @@ export const actions = {
     },
     async authenticateUser({ commit }, requestBody) {
         const client = await apiClient
-        console.log(client.authorizations)
 
         try {
-            var response = await client.apis.authentication.authenticateUser({}, { requestBody: requestBody })
-            client.authorizations = { BearerAuth: {value: response.body.access_token} }
-            commit('SET_AUTHENTICATION_TOKEN', response.body.access_token)
+            var response = await client.apis.authentication.authenticateUser({}, {requestBody: requestBody })
+            localStorage.setItem('accessToken', response.body.access_token)
         } catch(e) {
             commit('SET_LOGIN_ERROR', e.response.body.detail)
-            console.log(e.response.body.detail)
         }
+    },
+    async getCurrentUser({ commit }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        const response = await client.apis.authentication.currentUserInfo({}, {
+            requestInterceptor: (request) => {
+                request.headers.Authorization = `Bearer ${accessToken}`
+            }
+        })
+        commit('SET_CURRENT_USER', response.body)
     }
 }

@@ -3,6 +3,9 @@ import Home from '../views/Home.vue'
 import Register from '../views/users/Register.vue'
 import LogIn from '../views/users/LogIn.vue'
 import UserIndex from '../views/users/UserIndex.vue'
+import CurrentUser from '../views/users/profile/CurrentUser.vue'
+import ProfileIndex from '../views/users/profile/ProfileIndex.vue'
+
 
 const routes = [
   {
@@ -24,6 +27,18 @@ const routes = [
         path: 'login',
         name: 'login',
         component: LogIn,
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: ProfileIndex,
+        children: [
+          {
+            path: 'current',
+            name: 'currentUser',
+            component: CurrentUser,
+          }
+        ]
       },
     ]
   },

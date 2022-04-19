@@ -39,7 +39,6 @@
             <hr>
 
             <div class="form-outline mb-4">
-                {{ first_name }}
                 <input
                     v-model="first_name"
                     type="text" id="first_name"
@@ -163,7 +162,6 @@ export default {
             e.preventDefault()
             await this.registerUser(requestBody)
 
-            console.log(this.errors)
             if(Object.keys(this.errors).length == 0) {
                 alert('Registration Success!')
                 this.$router.push({ name: 'login' })

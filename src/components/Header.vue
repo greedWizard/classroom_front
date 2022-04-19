@@ -19,25 +19,27 @@
           <i class="fa fa-tachometer" aria-hidden="true"></i> About
         </a>
       </li>
-      <li class="header">Education</li>
-      <li>
-        <a href="#">
-          <i class="fa fa-users" aria-hidden="true"></i> Rooms
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fa fa-cog" aria-hidden="true"></i> Homeworks
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fa fa-info-circle" aria-hidden="true"></i> Statistic
-        </a>
-      </li>
+      <template v-if="loggedIn">
+        <li class="header">Education</li>
+        <li>
+          <a href="#">
+            <i class="fa fa-users" aria-hidden="true"></i> Rooms
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-cog" aria-hidden="true"></i> Homeworks
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-info-circle" aria-hidden="true"></i> Statistic
+          </a>
+        </li>
+      </template>
       <li class="header">Profile</li>
       <!-- TODO: проверка на логин -->
-      <template v-if="true">
+      <template v-if="!loggedIn">
         <li>
           <a
             href="#"
@@ -63,6 +65,30 @@
           </a>
         </li>
       </template>
+      <template v-else>
+        <li>
+          <a
+            href="#"
+            :class="{ current: currentTab === 'currentUser' }"
+            @click="$router.push({ name: 'currentUser' })"
+          >
+            <i
+              class="fa fa-info-circle"
+              aria-hidden="true"
+            ></i>My Profile
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+          >
+            <i
+              class="fa fa-info-circle"
+              aria-hidden="true"
+            ></i>Log out
+          </a>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -74,8 +100,12 @@ export default {
     name: 'Header',
     computed: {
       ...mapGetters(
-        {currentTab: 'tabs/currentTab'}
-      )
+        {currentTab: 'tabs/currentTab'},
+        {currentUser: 'users/currentUser'},
+      ),
+      loggedIn() {
+        return Boolean(localStorage.getItem('accessToken'))
+      }
     },
 }
 </script>
