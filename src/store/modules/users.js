@@ -7,7 +7,8 @@ export const state = {
     currentUser: undefined,
     items: [],
     registrationErrors: {},
-    loginError: undefined,
+    loginError: {},
+    errors: {},
 }
 
 export const getters = {
@@ -64,11 +65,34 @@ export const actions = {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
 
-        const response = await client.apis.authentication.currentUserInfo({}, {
-            requestInterceptor: (request) => {
-                request.headers.Authorization = `Bearer ${accessToken}`
-            }
-        })
-        commit('SET_CURRENT_USER', response.body)
+        try {
+            const response = await client.apis.authentication.currentUserInfo({}, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                }
+            })
+            commit('SET_CURRENT_USER', response.body)
+        } catch (e) {
+            alert('Not logged in!')
+            localStorage.removeItem('accessToken')
+        }
+    },
+    async updateUser({commit}, requestBody) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.authentication.updateCurrentUser({}, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+            commit('SET_CURRENT_USER', response.body)
+            console.log(response.body)
+        } catch (e) {
+            console.error(e)
+            commit('SET_LOGIN_ERROR', e.response.body.detail)
+        }
     }
 }

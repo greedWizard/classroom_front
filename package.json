@@ -12,7 +12,7 @@
     "bootstrap": "^5.0.0-beta3",
     "core-js": "^3.6.5",
     "swagger-client": "^3.13.7",
-    "vue": "^3.0.0",
+    "vue": "^3.2.33",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

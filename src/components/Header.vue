@@ -81,6 +81,7 @@
         <li>
           <a
             href="#"
+            @click="$router.push({ name: 'logout' })"
           >
             <i
               class="fa fa-info-circle"
@@ -107,6 +108,9 @@ export default {
         return Boolean(localStorage.getItem('accessToken'))
       }
     },
+    async mounted() {
+      this.$forceUpdate()
+    }
 }
 </script>
 

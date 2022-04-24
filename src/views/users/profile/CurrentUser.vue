@@ -1,18 +1,29 @@
 <template>
-  <CurrentUser />
+    <CurrentUser />
 </template>
 
 <script>
 import CurrentUser from '@/components/users/profile/CurrentUser.vue'
-import { mapActions } from 'vuex'
+import store  from '@/store'
+import { mapActions, mapGetters } from 'vuex'
+
 
 export default {
     components: {
         CurrentUser,
     },
+    computed: {
+      ...mapGetters({
+        currentUser: 'users/currentUser'
+      })
+    },
+    async setup() {
+      await store.dispatch('users/getCurrentUser')
+      return {}
+    },
     methods: {
       ...mapActions({
-        setTab: 'tabs/setTab'
+        setTab: 'tabs/setTab',
       })
     },
     async beforeMount() {

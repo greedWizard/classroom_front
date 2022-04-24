@@ -97,6 +97,7 @@ export default {
                 password: this.password,
             }
             await this.authenticateUser(requestBody)
+            this.$router.push({ 'name': 'currentUser' })
         } 
     }
 }

@@ -5,6 +5,7 @@ import LogIn from '../views/users/LogIn.vue'
 import UserIndex from '../views/users/UserIndex.vue'
 import CurrentUser from '../views/users/profile/CurrentUser.vue'
 import ProfileIndex from '../views/users/profile/ProfileIndex.vue'
+import LogOut from '../views/users/LogOut.vue'
 
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
         path: 'login',
         name: 'login',
         component: LogIn,
+      },
+      {
+        path: 'logout',
+        name: 'logout',
+        component: LogOut,
       },
       {
         path: 'profile',
