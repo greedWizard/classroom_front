@@ -157,7 +157,7 @@ export default {
     computed: {
         ...mapGetters({
             currentUser: 'users/currentUser',
-            updateErrors: 'users/loginError',
+            updateErrors: 'users/registrationErrors',
         })
     },
     data() {

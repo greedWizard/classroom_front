@@ -7,7 +7,7 @@ export const state = {
     currentUser: undefined,
     items: [],
     registrationErrors: {},
-    loginError: {},
+    loginError: undefined,
     errors: {},
 }
 
@@ -57,6 +57,7 @@ export const actions = {
         try {
             var response = await client.apis.authentication.authenticateUser({}, {requestBody: requestBody })
             localStorage.setItem('accessToken', response.body.access_token)
+            commit('SET_LOGIN_ERROR', undefined)
         } catch(e) {
             commit('SET_LOGIN_ERROR', e.response.body.detail)
         }
@@ -92,7 +93,7 @@ export const actions = {
             console.log(response.body)
         } catch (e) {
             console.error(e)
-            commit('SET_LOGIN_ERROR', e.response.body.detail)
+            commit('SET_REGISTRATION_ERRORS', e.response.body.detail)
         }
     }
 }

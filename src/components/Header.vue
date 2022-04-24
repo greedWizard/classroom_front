@@ -22,7 +22,11 @@
       <template v-if="loggedIn">
         <li class="header">Education</li>
         <li>
-          <a href="#">
+          <a
+          href="#"
+          @click="$router.push({name: 'room-list'})"
+          :class="{ current: currentTab === 'rooms' }"
+        >
             <i class="fa fa-users" aria-hidden="true"></i> Rooms
           </a>
         </li>

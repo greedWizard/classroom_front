@@ -6,6 +6,8 @@ import UserIndex from '../views/users/UserIndex.vue'
 import CurrentUser from '../views/users/profile/CurrentUser.vue'
 import ProfileIndex from '../views/users/profile/ProfileIndex.vue'
 import LogOut from '../views/users/LogOut.vue'
+import RoomIndex from '../views/rooms/RoomIndex.vue'
+import RoomList from '../views/rooms/RoomList.vue'
 
 
 const routes = [
@@ -13,6 +15,18 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/rooms',
+    name: 'rooms',
+    component: RoomIndex,
+    children: [
+      {
+        path: 'list',
+        name: 'room-list',
+        component: RoomList,
+      }
+    ]
   },
   {
     path: '/users',
