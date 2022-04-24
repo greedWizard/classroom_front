@@ -110,7 +110,7 @@
 
                 <div class="form-outline mb-4">
                     <input v-model="confirm_password" type="password" id="confirm_password" class="form-control form-control-lg" />
-                    <label class="form-label" for="confirm_password">*Password 
+                    <label class="form-label" for="confirm_password">*Confirm Password 
                         <span class="regError">
                             {{ updateErrors.confirm_password }}
                         </span>
@@ -150,7 +150,6 @@ export default {
                 email: this.email,
                 confirm_password: this.confirm_password,
             }
-            console.log(requestBody)
             await this.updateUser(requestBody)
         }
     },

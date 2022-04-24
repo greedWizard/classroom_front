@@ -8,6 +8,7 @@ import ProfileIndex from '../views/users/profile/ProfileIndex.vue'
 import LogOut from '../views/users/LogOut.vue'
 import RoomIndex from '../views/rooms/RoomIndex.vue'
 import RoomList from '../views/rooms/RoomList.vue'
+import RoomCreate from '../views/rooms/RoomCreate.vue'
 
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
         path: 'list',
         name: 'room-list',
         component: RoomList,
+      },
+      {
+        path: 'create',
+        name: 'room-create',
+        component: RoomCreate,
       }
     ]
   },

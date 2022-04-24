@@ -8,30 +8,44 @@
           :class="{ active: room.participation.role === 'host' }"
         >
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ room.name }}</h5>
-            <small>
-              {{ room.created_at }}
-              <button class="btn btn-light btn-sm">
+            <h5 class="mb-1">{{ room.name }} &#128101; {{ room.participations_count }} </h5><hr>
+            <small v-if="room.participation.role === 'host'">
+              <button
+                class="btn btn-light btn-sm ml-4"
+                @click="deleteRoom(room.id)"
+              >
                 Dissolve
               </button>
             </small>
           </div>
           <p class="mb-1">{{ room.description }}</p>
-          <small>{{ room.participations_count }} participants including you </small>
+          <small>{{ room.created_at }} </small>
         </a>
+        <hr>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
+
 export default {
   props: {
     rooms: Array,
+  },
+  methods: {
+    ...mapActions({
+      deleteRoom: 'rooms/deleteRoom',
+    }),
+    // async deleteRoomById(roomId) {
+
+    // }
   }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

@@ -90,7 +90,8 @@ export const actions = {
                 requestBody: requestBody,
             })
             commit('SET_CURRENT_USER', response.body)
-            console.log(response.body)
+            commit('SET_REGISTRATION_ERRORS', {})
+            alert('Success')
         } catch (e) {
             console.error(e)
             commit('SET_REGISTRATION_ERRORS', e.response.body.detail)

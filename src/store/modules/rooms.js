@@ -5,6 +5,7 @@ export const namespaced = true;
 export const state = {
     item: null,
     items: [],
+    errors: {},
 }
 
 export const getters = {
@@ -13,6 +14,9 @@ export const getters = {
     },
     items(state) {
         return state.items
+    },
+    errors(state) {
+        return state.errors
     }
 }
 
@@ -22,6 +26,9 @@ export const mutations = {
     },
     SET_ITEM(state, item) {
         state.item = item
+    },
+    SET_ERRORS(state, items) {
+        state.errors = items
     }
 }
 
@@ -29,7 +36,6 @@ export const actions = {
     async getRooms({ commit }) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
-        console.log(client.apis.classroom)
         
         try {
             const response = await client.apis.classroom.getCurrentUserRooms({}, {
@@ -43,4 +49,41 @@ export const actions = {
             console.error(e)
         }
     },
+    async createRoom({ commit }, requestBody) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.classroom.createRoom({}, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+            console.log(response.body)
+            commit('SET_ERRORS', {})
+        } catch (e) {
+            console.error(e)
+            commit('SET_ERRORS', e.response.body.detail)
+
+        }
+    },
+    async deleteRoom({ dispatch }, roomId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.classroom.deleteRoom({
+                room_id: roomId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            console.log(response.body)
+            dispatch('getRooms')
+        } catch (e) {
+            console.error(e.response.body)
+        }
+    }
 }
