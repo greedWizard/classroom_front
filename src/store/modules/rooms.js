@@ -85,5 +85,42 @@ export const actions = {
         } catch (e) {
             console.error(e.response.body)
         }
+    },
+    async getRoom({ commit }, roomId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.classroom.getRoom({
+                room_id: roomId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_ITEM', response.body)
+        } catch (e) {
+            console.error(e.response.body)
+        }
+    },
+    async updateRoom({ commit }, {roomId, requestBody}) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.classroom.updateRoom({
+                room_id: roomId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody
+            })
+            commit('SET_ITEM', response.body)
+            commit('SET_ERRORS', {})
+        } catch (e) {
+            console.error(e.response.body)
+            commit('SET_ERRORS', e.response.body.detail)
+        }
     }
 }

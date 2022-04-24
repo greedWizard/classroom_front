@@ -6,17 +6,28 @@
           href="#"
           class="list-group-item list-group-item-action flex-column align-items-start"
           :class="{ active: room.participation.role === 'host' }"
+          :id="'room#' + room.id"
         >
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ room.name }} &#128101; {{ room.participations_count }} </h5><hr>
-            <small v-if="room.participation.role === 'host'">
-              <button
-                class="btn btn-light btn-sm ml-4"
-                @click="deleteRoom(room.id)"
-              >
-                Dissolve
-              </button>
-            </small>
+            <div v-if="room.participation.role === 'host'">
+              <small>
+                <button
+                  class="btn btn-success btn-sm"
+                  @click="$router.push({ name: 'room-edit', params: { id: room.id } })"
+                >
+                  Edit &#x270E;
+                </button>
+              </small> |
+              <small>
+                <button
+                  class="btn btn-danger btn-sm mr-4"
+                  @click="deleteRoom(room.id)"
+                >
+                  Dissolve
+                </button>
+              </small>
+            </div>
           </div>
           <p class="mb-1">{{ room.description }}</p>
           <small>{{ room.created_at }} </small>
@@ -39,9 +50,6 @@ export default {
     ...mapActions({
       deleteRoom: 'rooms/deleteRoom',
     }),
-    // async deleteRoomById(roomId) {
-
-    // }
   }
 }
 </script>

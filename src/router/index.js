@@ -9,6 +9,7 @@ import LogOut from '../views/users/LogOut.vue'
 import RoomIndex from '../views/rooms/RoomIndex.vue'
 import RoomList from '../views/rooms/RoomList.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
+import RoomEdit from '../views/rooms/detail/RoomEdit.vue'
 
 
 const routes = [
@@ -31,7 +32,12 @@ const routes = [
         path: 'create',
         name: 'room-create',
         component: RoomCreate,
-      }
+      },
+      {
+        path: '/:id/edit',
+        name: 'room-edit',
+        component: RoomEdit,
+      },
     ]
   },
   {
