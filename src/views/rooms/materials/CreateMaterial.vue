@@ -1,6 +1,6 @@
 <template>
   <div>
-      <RoomPostCreate :title="'material'" />
+      <RoomPostCreate />
   </div>
 </template>
 

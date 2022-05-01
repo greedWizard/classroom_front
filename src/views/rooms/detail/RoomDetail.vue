@@ -5,7 +5,11 @@
         class="btn btn-outline-secondary btn-sm mb-4"
         @click="$router.push({name: 'room-list'})"
     >Return to list</button>
-      <RoomDetail :room="room" :currentUser="user"/>
+    <RoomDetail
+        :room="room"
+        :currentUser="user"
+        :materials="materials"
+    />
   </div>
 </template>
 
@@ -23,12 +27,14 @@ export default {
         ...mapGetters({
             room: 'rooms/item',
             user: 'users/currentUser',
+            materials: 'materials/items',
         })
     },
     async setup(){
         const route = useRoute()
         await store.dispatch('rooms/getRoom', route.params.id)
         await store.dispatch('users/getCurrentUser')
+        await store.dispatch('materials/fetch', route.params.id)
         return {}
     }
 }

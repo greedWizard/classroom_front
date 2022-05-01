@@ -83,9 +83,6 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-    created(){
-        console.log(this.$router)
-    },
     data() {
         return {
             postType: '',

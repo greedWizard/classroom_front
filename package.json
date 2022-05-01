@@ -11,6 +11,7 @@
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.0-beta3",
     "core-js": "^3.6.5",
+    "moment": "^2.29.3",
     "swagger-client": "^3.13.7",
     "vue": "^3.2.33",
     "vue-router": "^4.0.0-0",

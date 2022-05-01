@@ -38,18 +38,49 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.createMaterial({}, {
+            await client.apis.classroom.createMaterial({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
                 requestBody: requestBody,
             })
-            console.log(response.body)
             commit('SET_ERRORS', {})
         } catch (e) {
             console.error(e.response)
             commit('SET_ERRORS', e.response.body.detail)
 
         }
-    }
+    },
+    async fetch({ commit }, roomId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.classroom.getMaterials({room_id: roomId}, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_ITEMS', response.body)
+        } catch (e) {
+            console.error(e.response)
+        }
+    },
+    async delete({ dispatch }, material) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            await client.apis.classroom.deleteMaterial({
+                material_id: material.id
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            dispatch('fetch', material.room_id)
+        } catch (e) {
+            console.error(e)
+        }
+    },
 }

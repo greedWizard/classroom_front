@@ -2,12 +2,14 @@
   <div>
       <div>
         <h3>{{ room.name }}</h3> <br>
-        <p>{{ room.description }}</p>
+        <h5 class="mb-4 text-muted">{{ room.description }}</h5>
       <div>
     <div v-if="canModerate">
-        <h5>Link to join:
-            {{ join_link }}
-        </h5>
+        <a>Link to join:
+            <input type="text" disabled :value="join_link">
+            <button class="btn btn-secondary btn-sm mr-4" @click="copyJoinLink">Copy</button>
+            <template v-if="copied" class="mr-4" >Copied!</template>
+        </a>
     </div>
       </div>
       </div>
@@ -29,8 +31,10 @@
                     </h4>
                 </a>
                 <div class="list-group">
-                    <div v-for="material in materials" :key="material.id">
-                        <MaterialItem :material="material" />
+                    <div v-for="material in materials.items" :key="material.id">
+                        <MaterialItem
+                            :material="material" :canModerate="canModerate"
+                        />
                     </div>
                 </div>
             </div>
@@ -68,6 +72,7 @@ export default {
             join_link: window.location.host + this.$router.resolve(
                 { name: 'room-join', params: { join_slug: this.room.join_slug } }
             ).fullPath,
+            copied: false,
         }
     },
     computed: {
@@ -75,10 +80,20 @@ export default {
             return this.room.author.id === this.currentUser.id
         }
     },
+    methods: {
+        async copyJoinLink() {
+            try {
+                await navigator.clipboard.writeText(this.join_link)
+                this.copied = true
+            } catch(e) {
+                console.error(e)
+            }
+        },
+    },
     props: {
         room: Object,
         homeworks: Array,
-        materials: Array,
+        materials: Object,
         currentUser: Object,
     },
 }
