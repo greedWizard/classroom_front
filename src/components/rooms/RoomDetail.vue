@@ -3,15 +3,13 @@
       <div>
         <h3>{{ room.name }}</h3> <br>
         <p>{{ room.description }}</p>
-        <div></div>
-        <div v-if="canModerate">
-            <p>Link to join:
-                <!-- <router-link :to="{ name: 'room-join', params: { join_slug: room.join_slug } }">
-                    Here
-                </router-link> -->
-                {{ join_link }}
-            </p>
-        </div>
+      <div>
+    <div v-if="canModerate">
+        <h5>Link to join:
+            {{ join_link }}
+        </h5>
+    </div>
+      </div>
       </div>
       <hr>
       <div class="row">
@@ -23,6 +21,10 @@
                         <button
                             class="btn btn-outline-success"
                             v-if="canModerate"
+                            @click="$router.push({
+                                name: 'material-create',
+                                params: { roomId: room.id }
+                            })"
                         >+</button>
                     </h4>
                 </a>
@@ -71,15 +73,7 @@ export default {
     computed: {
         canModerate() {
             return this.room.author.id === this.currentUser.id
-        },
-        joinLink() {
-            // const fullPath = this.$router.resolve(
-            //     { name: 'room-join', params: { join_slug: this.room.join_slug } }
-            // ).fullPath
-            const host = window.location.host
-
-            return host
-        },
+        }
     },
     props: {
         room: Object,

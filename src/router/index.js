@@ -12,6 +12,7 @@ import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomEdit from '../views/rooms/detail/RoomEdit.vue'
 import RoomDetail from '../views/rooms/detail/RoomDetail.vue'
 import RoomJoin from '../views/rooms/RoomJoin.vue'
+import MaterialCreate from '../views/rooms/materials/CreateMaterial.vue'
 
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
         path: ':id',
         name: 'room-detail',
         component: RoomDetail,
+      },
+      {
+        path: ':roomId/materials/create-new',
+        name: 'material-create',
+        component: MaterialCreate,
       },
       {
         path: 'join/:join_slug',
