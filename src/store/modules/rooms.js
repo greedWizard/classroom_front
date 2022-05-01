@@ -122,5 +122,22 @@ export const actions = {
             console.error(e.response.body)
             commit('SET_ERRORS', e.response.body.detail)
         }
+    },
+    async join({ commit }, joinSlug) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            await client.apis.classroom.joinBySlug({
+                join_slug: joinSlug
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_ERRORS', {})
+        } catch (e) {
+            console.error(e.response.body)
+        }
     }
 }

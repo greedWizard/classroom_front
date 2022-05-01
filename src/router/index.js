@@ -10,6 +10,8 @@ import RoomIndex from '../views/rooms/RoomIndex.vue'
 import RoomList from '../views/rooms/RoomList.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomEdit from '../views/rooms/detail/RoomEdit.vue'
+import RoomDetail from '../views/rooms/detail/RoomDetail.vue'
+import RoomJoin from '../views/rooms/RoomJoin.vue'
 
 
 const routes = [
@@ -34,10 +36,20 @@ const routes = [
         component: RoomCreate,
       },
       {
-        path: '/:id/edit',
+        path: ':id/edit',
         name: 'room-edit',
         component: RoomEdit,
       },
+      {
+        path: ':id',
+        name: 'room-detail',
+        component: RoomDetail,
+      },
+      {
+        path: 'join/:join_slug',
+        name: 'room-join',
+        component: RoomJoin,
+      }
     ]
   },
   {
