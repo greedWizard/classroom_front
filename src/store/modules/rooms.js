@@ -128,7 +128,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.joinBySlug({
+            await client.apis.classroom.updateRoom({
                 join_slug: joinSlug
             }, {
                 requestInterceptor: (request) => {

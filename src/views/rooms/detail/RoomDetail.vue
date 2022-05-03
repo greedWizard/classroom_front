@@ -5,6 +5,7 @@
         class="btn btn-outline-secondary btn-sm mb-4"
         @click="$router.push({name: 'room-list'})"
     >Return to list</button>
+    <hr>
     <RoomDetail
         :room="room"
         :currentUser="user"

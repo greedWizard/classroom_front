@@ -56,21 +56,30 @@
                         ></textarea>
                     </div>
                     <div class="mb-3">
+                        <label for="formFileSm" class="form-label">Add attachments</label>
+                        <input
+                            class="form-control form-control-sm"
+                            id="formFileSm"
+                            type="file"
+                            ref="attachments"
+                            @change="handleFiles"
+                            multiple
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <AttachmentsList
+                            :attachments="attachments"
+                            :allowEdit="true"
+                            @remove="removeAttachment"
+                        />
+                    </div>
+                    <div class="mb-4">
                         <button
                             type="button"
                             class="btn btn-primary"
                             @click="handlePostCreate"
+                            :disabled="!postType"
                         >Create post</button>
-                    </div>
-                    <div class="mb-3">
-                        <label for="formFileSm" class="form-label">Add attachments</label>
-                        <input
-                            class="form-control form-control-sm"
-                            id="formFileSm" type="file"
-                            :disabled="true"
-                        >
-                    </div>
-                    <div class="mb-3">
                     </div>
                 </div>
             </div>
@@ -81,24 +90,32 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import AttachmentsList from '@/components/roomposts/AttachmentsList'
+
 
 export default {
+    components: {
+        AttachmentsList
+    },
     data() {
         return {
             postType: '',
             title: '',
             text: '',
             description: '',
+            attachments: [],
         }
     },
     computed: {
         ...mapGetters({
             errors: 'materials/errors',
+            material: 'materials/item',
         })
     },
     methods: {
         ...mapActions({
             createMaterial: 'materials/create',
+            attachFiles: 'materials/attachFilesToMaterial',
         }),
         async handlePostCreate() {
             if(this.postType === 'Material') {
@@ -111,9 +128,23 @@ export default {
                 await this.createMaterial(requestBody)
                 
                 if(Object.keys(this.errors).length == 0) {
+                    const attachmentRequest = {
+                        materialId: this.material.id,
+                        requestBody: {
+                            attachments: this.attachments,
+                        },
+                    }
+                    this.attachFiles(attachmentRequest)
                     alert('Create success')
                 }
             }
+        },
+        async removeAttachment(attachment) {
+            this.attachments = this.attachments.filter(e => e != attachment)
+        },
+        async handleFiles() {
+            this.attachments = this.attachments.concat(Array.from(this.$refs.attachments.files))
+            console.log(this.attachments)
         }
     }
 }

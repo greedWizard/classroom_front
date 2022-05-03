@@ -38,12 +38,13 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.createMaterial({}, {
+            const response = await client.apis.classroom.createMaterial({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
                 requestBody: requestBody,
             })
+            commit('SET_ITEM', response.body)
             commit('SET_ERRORS', {})
         } catch (e) {
             console.error(e.response)
@@ -83,4 +84,21 @@ export const actions = {
             console.error(e)
         }
     },
+    async attachFilesToMaterial(context, { materialId, requestBody }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            await client.apis.classroom.attachFilesToMaterial({
+                material_id: materialId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+        } catch (e) {
+            console.error(e.response)
+        }
+    }
 }

@@ -7,6 +7,7 @@
         {{ moment(material.created_at).format('LLLL') }}
       </span>
       <p class="card-text mb-4">{{ material.description || 'No description' }}</p>
+      <p class="card-text mb-4">{{ material.attachments_count }} files attached</p>
       <template v-if="material.text">
         <p v-if="material.text.length <= 100">{{ material.text }}</p>
         <p v-else-if="material.text.length > 100">{{ material.text.substring(0, 50) }}...</p>
@@ -31,6 +32,7 @@ export default {
     props: {
         material: Object,
         canModerate: Boolean,
+        attachments: Array,
     },
     data() {
       return {
