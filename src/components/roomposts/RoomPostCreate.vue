@@ -94,16 +94,21 @@ import AttachmentsList from '@/components/roomposts/AttachmentsList'
 
 
 export default {
+    props: {
+        initialPost: Object,
+    },
     components: {
         AttachmentsList
     },
     data() {
+        let queryType = this.$route.query.type || 'material'
+
         return {
-            postType: '',
-            title: '',
-            text: '',
-            description: '',
-            attachments: [],
+            postType: queryType.charAt(0).toUpperCase() + queryType.slice(1),
+            title: this.initialPost.title,
+            text: this.initialPost.text,
+            description: this.initialPost.description,
+            attachments: this.initialPost.attachments || [],
         }
     },
     computed: {
@@ -118,25 +123,25 @@ export default {
             attachFiles: 'roomPosts/attachFilesToRoomPost',
         }),
         async handlePostCreate() {
-            if(this.postType === 'Material') {
-                const requestBody = {
-                    title: this.title,
-                    text: this.text,
-                    description: this.description,
-                    room_id: this.$route.params.roomId
+            const requestBody = {
+                title: this.title || '',
+                text: this.text,
+                description: this.description,
+                room_id: this.$route.params.roomId,
+                type: this.postType.toLowerCase(),
+            }
+
+            await this.createRoomPost(requestBody)
+
+            if(Object.keys(this.errors).length == 0) {
+                const attachmentRequest = {
+                    roomPostId: this.roomPost.id,
+                    requestBody: {
+                        attachments: this.attachments,
+                    },
                 }
-                await this.createRoomPost(requestBody)
-                
-                if(Object.keys(this.errors).length == 0) {
-                    const attachmentRequest = {
-                        roomPostId: this.roomPost.id,
-                        requestBody: {
-                            attachments: this.attachments,
-                        },
-                    }
-                    this.attachFiles(attachmentRequest)
-                    alert('Create success')
-                }
+                await this.attachFiles(attachmentRequest)
+                alert('Create success')
             }
         },
         async removeAttachment(attachment) {

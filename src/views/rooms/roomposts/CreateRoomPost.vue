@@ -1,6 +1,6 @@
 <template>
   <div>
-      <RoomPostCreate />
+      <RoomPostCreate :initialPost="{}"/>
   </div>
 </template>
 

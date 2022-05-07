@@ -9,7 +9,8 @@
     <RoomDetail
         :room="room"
         :currentUser="user"
-        :roomPosts="roomPosts"
+        :materials="materials"
+        :homeworks="homeworks"
     />
   </div>
 </template>
@@ -29,7 +30,13 @@ export default {
             room: 'rooms/item',
             user: 'users/currentUser',
             roomPosts: 'roomPosts/items',
-        })
+        }),
+        materials() {
+            return this.roomPosts.items.filter(e => e.type === 'material')
+        },
+        homeworks() {
+            return this.roomPosts.items.filter(e => e.type === 'homework')
+        }
     },
     async setup(){
         const route = useRoute()

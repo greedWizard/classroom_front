@@ -49,7 +49,6 @@ export const actions = {
         } catch (e) {
             console.error(e.response)
             commit('SET_ERRORS', e.response.body.detail)
-
         }
     },
     async fetch({ commit }, roomId) {
@@ -87,6 +86,7 @@ export const actions = {
     async attachFilesToRoomPost(context, { roomPostId, requestBody }) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
+        console.log('room post id', roomPostId)
         
         try {
             await client.apis.classroom.attachFilesToRoomPost({
@@ -98,7 +98,7 @@ export const actions = {
                 requestBody: requestBody,
             })
         } catch (e) {
-            console.error(e.response)
+            console.error(e)
         }
     },
     async getRoomPost({ commit }, roomPostId) {
