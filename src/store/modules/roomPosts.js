@@ -38,7 +38,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.createMaterial({}, {
+            const response = await client.apis.classroom.createRoomPost({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -57,7 +57,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.getMaterials({room_id: roomId}, {
+            const response = await client.apis.classroom.getRoomPosts({room_id: roomId}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -67,30 +67,30 @@ export const actions = {
             console.error(e.response)
         }
     },
-    async delete({ dispatch }, material) {
+    async delete({ dispatch }, roomPost) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.deleteMaterial({
-                material_id: material.id
+            await client.apis.classroom.deleteRoomPost({
+                room_post_id: roomPost.id
             }, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
             })
-            dispatch('fetch', material.room_id)
+            dispatch('fetch', roomPost.room_id)
         } catch (e) {
             console.error(e)
         }
     },
-    async attachFilesToMaterial(context, { materialId, requestBody }) {
+    async attachFilesToRoomPost(context, { roomPostId, requestBody }) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.attachFilesToMaterial({
-                material_id: materialId
+            await client.apis.classroom.attachFilesToRoomPost({
+                room_post_id: roomPostId
             }, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
@@ -99,6 +99,24 @@ export const actions = {
             })
         } catch (e) {
             console.error(e.response)
+        }
+    },
+    async getRoomPost({ commit }, roomPostId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.classroom.getRoomPost({room_post_id: roomPostId},
+                {
+                    requestInterceptor: (request) => {
+                        request.headers.Authorization = `Bearer ${accessToken}`
+                    },
+                }
+            )
+            commit('SET_ITEM', response.body)
+        }
+        catch (e) {
+            console.error(e)
         }
     }
 }

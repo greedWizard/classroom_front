@@ -36,6 +36,9 @@
               </small>
             </div>
           </div>
+          <div>
+            Created: {{ room.author.first_name }}  {{ room.author.last_name }}
+          </div> <hr>
           <p class="mb-1">{{ room.description }}</p>
           <small>{{ room.created_at }} </small>
         </a>
@@ -47,7 +50,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-
 
 export default {
   props: {

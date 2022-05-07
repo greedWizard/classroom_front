@@ -108,14 +108,14 @@ export default {
     },
     computed: {
         ...mapGetters({
-            errors: 'materials/errors',
-            material: 'materials/item',
+            errors: 'roomPosts/errors',
+            roomPost: 'roomPosts/item',
         })
     },
     methods: {
         ...mapActions({
-            createMaterial: 'materials/create',
-            attachFiles: 'materials/attachFilesToMaterial',
+            createRoomPost: 'roomPosts/create',
+            attachFiles: 'roomPosts/attachFilesToRoomPost',
         }),
         async handlePostCreate() {
             if(this.postType === 'Material') {
@@ -125,11 +125,11 @@ export default {
                     description: this.description,
                     room_id: this.$route.params.roomId
                 }
-                await this.createMaterial(requestBody)
+                await this.createRoomPost(requestBody)
                 
                 if(Object.keys(this.errors).length == 0) {
                     const attachmentRequest = {
-                        materialId: this.material.id,
+                        roomPostId: this.roomPost.id,
                         requestBody: {
                             attachments: this.attachments,
                         },

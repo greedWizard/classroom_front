@@ -9,7 +9,7 @@
     <RoomDetail
         :room="room"
         :currentUser="user"
-        :materials="materials"
+        :roomPosts="roomPosts"
     />
   </div>
 </template>
@@ -28,14 +28,14 @@ export default {
         ...mapGetters({
             room: 'rooms/item',
             user: 'users/currentUser',
-            materials: 'materials/items',
+            roomPosts: 'roomPosts/items',
         })
     },
     async setup(){
         const route = useRoute()
         await store.dispatch('rooms/getRoom', route.params.id)
         await store.dispatch('users/getCurrentUser')
-        await store.dispatch('materials/fetch', route.params.id)
+        await store.dispatch('roomPosts/fetch', route.params.id)
         return {}
     }
 }

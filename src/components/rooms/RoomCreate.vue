@@ -1,36 +1,36 @@
 <template>
-  <div>
-        <section class="vh-100">
-        <div class="container">
-            <div class="row d-flex align-items-center">
-            <div class="col-md-7 col-lg-5 col-xl-5 ">
-                <div class="form-outline mb-4">
-                    {{ errors.name }}
-                    <input
-                        v-model="name"
-                        type="text" id="name"
-                        class="form-control form-control-lg"
-                        placeholder="Name"
-                    />
-                    <hr>
-                    <input
-                        v-model="description"
-                        type="text" id="description"
-                        class="form-control form-control-lg"
-                        placeholder="Description"
-                    />
-                </div>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary btn-lg btn-block ml-4 mb-4"
-                    @click="createNewRoom"
-                >Create</button>
+<div>
+    <section class="vh-100">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+        <div class="col-md-7 col-lg-5 col-xl-5 ">
+            <div class="form-outline mb-4">
+                {{ errors.name }}
+                <input
+                    v-model="name"
+                    type="text" id="name"
+                    class="form-control form-control-lg"
+                    placeholder="Name"
+                />
+                <hr>
+                <input
+                    v-model="description"
+                    type="text" id="description"
+                    class="form-control form-control-lg"
+                    placeholder="Description"
+                />
             </div>
-          </div>
+
+            <button
+                type="submit"
+                class="btn btn-primary btn-lg btn-block ml-4 mb-4"
+                @click="createNewRoom"
+            >Create</button>
         </div>
-        </section>
+        </div>
     </div>
+    </section>
+</div>
 </template>
 
 <script>

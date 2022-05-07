@@ -128,7 +128,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.updateRoom({
+            await client.apis.classroom.joinBySlug({
                 join_slug: joinSlug
             }, {
                 requestInterceptor: (request) => {
@@ -137,7 +137,7 @@ export const actions = {
             })
             commit('SET_ERRORS', {})
         } catch (e) {
-            console.error(e.response.body)
+            console.error(e)
         }
     }
 }

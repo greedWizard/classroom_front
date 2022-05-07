@@ -12,7 +12,8 @@ import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomEdit from '../views/rooms/detail/RoomEdit.vue'
 import RoomDetail from '../views/rooms/detail/RoomDetail.vue'
 import RoomJoin from '../views/rooms/RoomJoin.vue'
-import MaterialCreate from '../views/rooms/materials/CreateMaterial.vue'
+import RoomPostCreate from '../views/rooms/roomposts/CreateRoomPost.vue'
+import RoomPost from '../views/rooms/roomposts/RoomPostDetail.vue'
 
 
 const routes = [
@@ -47,14 +48,19 @@ const routes = [
         component: RoomDetail,
       },
       {
-        path: ':roomId/materials/create-new',
-        name: 'material-create',
-        component: MaterialCreate,
+        path: ':roomId/roomPosts/create-new',
+        name: 'roomPost-create',
+        component: RoomPostCreate,
       },
       {
         path: 'join/:join_slug',
         name: 'room-join',
         component: RoomJoin,
+      },
+      {
+        path: ':roomId/roomPosts/:roomPostId',
+        name: 'roomPost-detail',
+        component: RoomPost,
       }
     ]
   },

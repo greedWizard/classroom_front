@@ -1,6 +1,6 @@
 <template>
   <div>
-        <section class="vh-100">
+    <section class="vh-100">
         <div class="mb-4">
             <p>
                 Author: {{ room.author.first_name }} {{ room.author.last_name }}

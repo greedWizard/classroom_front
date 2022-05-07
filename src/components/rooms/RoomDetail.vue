@@ -1,9 +1,9 @@
 <template>
-  <div>
-      <div>
+<div>
+    <div>
         <h3>{{ room.name }}</h3> <br>
         <h5 class="mb-4 text-muted">{{ room.description }}</h5>
-      <div>
+    <div>
     <div v-if="canModerate">
         <a>Link to join:
             <input type="text" disabled :value="join_link">
@@ -11,11 +11,11 @@
             <template v-if="copied" class="mr-4" >Copied!</template>
         </a>
     </div>
-      </div>
-      </div>
-      <hr>
-      <div class="row">
-          <div class="d-flex w-50 justify-content-between">
+    </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="d-flex w-50 justify-content-between">
             <div>
                 <a>
                     <h4>
@@ -24,22 +24,22 @@
                             class="btn btn-outline-success"
                             v-if="canModerate"
                             @click="$router.push({
-                                name: 'material-create',
+                                name: 'roomPost-create',
                                 params: { roomId: room.id }
                             })"
                         >+</button>
                     </h4>
                 </a>
                 <div class="list-group">
-                    <div v-for="material in materials.items" :key="material.id">
-                        <MaterialItem
-                            :material="material" :canModerate="canModerate"
+                    <div v-for="roomPost in roomPosts.items" :key="roomPost.id">
+                        <RoomPostItem
+                            :roomPost="roomPost" :canModerate="canModerate"
                         />
                     </div>
                 </div>
             </div>
-          </div>
-          <div class="d-flex w-50 justify-content-between">
+        </div>
+            <div class="d-flex w-50 justify-content-between">
                 <a>
                     <h4>
                         Homeworks
@@ -51,21 +51,20 @@
                 </a>
                 <div class="list-group">
                     <div v-for="homework in homeworks" :key="homework.id">
-                        <HomeworkItem :homework="homework" />
+                        <RoomPostItem :homework="homework" />
                     </div>
                 </div>
-          </div>
-      </div>
-  </div>
+            </div>
+    </div>
+</div>
 </template>
 
 <script>
-import HomeworkItem from '@/components/posts/HomeworkItem.vue'
-import MaterialItem from '@/components/posts/MaterialItem.vue'
+import RoomPostItem from '@/components/posts/RoomPostItem.vue'
 
 export default {
     components: {
-        HomeworkItem, MaterialItem,
+        RoomPostItem,
     },
     data() {
         return {
@@ -93,7 +92,7 @@ export default {
     props: {
         room: Object,
         homeworks: Array,
-        materials: Object,
+        roomPosts: Object,
         currentUser: Object,
     },
 }

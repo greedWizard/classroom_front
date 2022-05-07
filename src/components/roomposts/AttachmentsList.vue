@@ -7,7 +7,7 @@
             :key="attachment"
         >
             <div class="d-flex justify-content-start">
-                <img src="@/images/icons/file.svg"> {{ attachment.name }}
+                <img src="@/images/icons/file.svg"> {{ attachment.name || attachment.filename }}
             </div>
             <div class="d-flex justify-content-end" v-if="allowEdit">
                 <button
