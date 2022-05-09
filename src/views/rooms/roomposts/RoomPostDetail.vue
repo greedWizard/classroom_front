@@ -2,7 +2,7 @@
     <div>
         <RoomPost 
             :post="roomPost"
-            :type="'roomPost'"
+            :user="user"
         />
     </div>
 </template>
@@ -24,16 +24,15 @@ export default {
     computed: {
         ...mapGetters({
             roomPost: 'roomPosts/item',
+            user: 'users/currentUser',
         })
     },
     async setup(){
         const route = useRoute()
         await store.dispatch('roomPosts/getRoomPost', route.params.roomPostId)
+        await store.dispatch('users/getCurrentUser')
         return {}
     },
-    created() {
-        console.log(this.roomPost)
-    }
 }
 </script>
 

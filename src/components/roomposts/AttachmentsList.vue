@@ -5,6 +5,7 @@
             class="list-group-item list-group-item-action"
             v-for="attachment in attachments"
             :key="attachment"
+            @click="startDownload(attachment)"
         >
             <div class="d-flex justify-content-start">
                 <img src="@/images/icons/file.svg"> {{ attachment.name || attachment.filename }}
@@ -21,10 +22,31 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import { downloadFromBlob } from '@/logic/utils.js'
+
+
 export default {
     props: {
         attachments: Array,
         allowEdit: Boolean,
+    },
+    computed: {
+        ...mapGetters({
+            attachment: 'attachments/item',
+        })
+    },
+    methods: {
+        ...mapActions({
+            getAttachment: 'attachments/get'
+        }),
+        async startDownload(attachment) {
+            if(attachment.id) {
+                await this.getAttachment(attachment.id)
+                console.log(this.attachment)
+                await downloadFromBlob(this.attachment, attachment.filename)
+            }
+        },
     }
 }
 </script>

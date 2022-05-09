@@ -10,8 +10,12 @@
         <div class="container">
             <div class="row d-flex align-items-center">
                 <div class="col-md-7 col-lg-5 col-xl-5 ">
-                    <label for="exampleFormControlSelect1" class="mb-2">Post type </label>
-                    <select v-model="postType" class="form-control mb-2" id="exampleFormControlSelect1">
+                    <label for="roompostSelect" class="mb-2">Post type </label>
+                    <select
+                        v-model="postType"
+                        class="form-control mb-2"
+                        id="roompostSelect"
+                    >
                         <option>Material</option>
                         <option>Homework</option>
                     </select>
