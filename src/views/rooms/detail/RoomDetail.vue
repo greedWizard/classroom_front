@@ -6,12 +6,7 @@
         @click="$router.push({name: 'room-list'})"
     >Return to list</button>
     <hr>
-    <RoomDetail
-        :room="room"
-        :currentUser="user"
-        :materials="materials"
-        :homeworks="homeworks"
-    />
+    <RoomDetail />
   </div>
 </template>
 
@@ -19,30 +14,20 @@
 import store  from '@/store'
 import { useRoute } from 'vue-router'
 import RoomDetail from '@/components/rooms/RoomDetail.vue'
-import { mapGetters } from 'vuex'
 
 export default {
     components: {
         RoomDetail,
-    },
-    computed: {
-        ...mapGetters({
-            room: 'rooms/item',
-            user: 'users/currentUser',
-            roomPosts: 'roomPosts/items',
-        }),
-        materials() {
-            return this.roomPosts.items.filter(e => e.type === 'material')
-        },
-        homeworks() {
-            return this.roomPosts.items.filter(e => e.type === 'homework')
-        }
     },
     async setup(){
         const route = useRoute()
         await store.dispatch('rooms/getRoom', route.params.id)
         await store.dispatch('users/getCurrentUser')
         await store.dispatch('roomPosts/fetch', route.params.id)
+        store.commit(
+            'rooms/SET_CAN_MODERATE',
+            store.getters['rooms/item'].author.id === store.getters['users/currentUser'].id,
+        )
         return {}
     }
 }

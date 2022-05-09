@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import RoomPost from '@/components/posts/RoomPostDetail.vue'
+import RoomPost from '@/components/roomposts/RoomPostDetail.vue'
 import { mapGetters } from 'vuex'
 
 import store  from '@/store'

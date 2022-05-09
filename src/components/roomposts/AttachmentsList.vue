@@ -5,15 +5,17 @@
             class="list-group-item list-group-item-action"
             v-for="attachment in attachments"
             :key="attachment"
-            @click="startDownload(attachment)"
         >
-            <div class="d-flex justify-content-start">
+            <div 
+                class="d-flex justify-content-start"
+                @click="startDownload(attachment)"
+            >
                 <img src="@/images/icons/file.svg"> {{ attachment.name || attachment.filename }}
             </div>
             <div class="d-flex justify-content-end" v-if="allowEdit">
                 <button
                     class="btn btn-dark btn-sm"
-                    @click="$emit('remove', attachment)"
+                    @click="removeAttachment(attachment)"
                 >Remove</button>
             </div>
         </div>
@@ -24,16 +26,17 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { downloadFromBlob } from '@/logic/utils.js'
+import store  from '@/store'
 
 
 export default {
     props: {
-        attachments: Array,
         allowEdit: Boolean,
     },
     computed: {
         ...mapGetters({
-            attachment: 'attachments/item',
+            attachmentBlob: 'attachments/item',
+            attachments: 'attachments/items',
         })
     },
     methods: {
@@ -43,10 +46,12 @@ export default {
         async startDownload(attachment) {
             if(attachment.id) {
                 await this.getAttachment(attachment.id)
-                console.log(this.attachment)
-                await downloadFromBlob(this.attachment, attachment.filename)
+                await downloadFromBlob(this.attachmentBlob, attachment.filename)
             }
         },
+        async removeAttachment(attachment) {
+            store.commit('attachments/SET_ITEMS', this.attachments.filter(e => e != attachment))
+        }
     }
 }
 </script>

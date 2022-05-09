@@ -25,7 +25,6 @@
                     <p>{{ post.attachments.length }} attached files</p>
                     <div class="form-outline mb-4">
                         <AttachmentsList 
-                            :attachments="post.attachments" 
                             :allowEdit="user.id === post.author_id"
                         />
                     </div>
@@ -43,7 +42,7 @@
 
 <script>
 import AttachmentsList from '@/components/roomposts/AttachmentsList'
-
+import store from '@/store'
 
 export default {
     components: {
@@ -53,6 +52,9 @@ export default {
         post: Object,
         type: String,
         user: Object,
+    },
+    created(){
+        store.commit('attachments/SET_ITEMS', this.post.attachments)
     }
 }
 </script>

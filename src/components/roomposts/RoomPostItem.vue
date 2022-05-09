@@ -31,18 +31,22 @@
 
 <script>
 import moment from 'moment'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     props: {
         roomPost: Object,
-        canModerate: Boolean,
         attachments: Array,
     },
     data() {
       return {
         moment: moment,
       }
+    },
+    computed: {
+      ...mapGetters({
+        canModerate: 'rooms/canModerate',
+      })
     },
     methods: {
       ...mapActions({

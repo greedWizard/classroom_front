@@ -72,9 +72,7 @@
                     </div>
                     <div class="mb-3">
                         <AttachmentsList
-                            :attachments="attachments"
                             :allowEdit="true"
-                            @remove="removeAttachment"
                         />
                     </div>
                     <div class="mb-4">
@@ -95,6 +93,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import AttachmentsList from '@/components/roomposts/AttachmentsList'
+import store from '@/store'
 
 
 export default {
@@ -104,21 +103,24 @@ export default {
     components: {
         AttachmentsList
     },
+    created() {
+        store.commit('attachments/SET_ITEMS', this.initialPost.attachments || [])
+    },
     data() {
-        let queryType = this.$route.query.type || 'material'
+        const queryType = this.$route.query.type || 'material'
 
         return {
             postType: queryType.charAt(0).toUpperCase() + queryType.slice(1),
             title: this.initialPost.title,
             text: this.initialPost.text,
             description: this.initialPost.description,
-            attachments: this.initialPost.attachments || [],
         }
     },
     computed: {
         ...mapGetters({
             errors: 'roomPosts/errors',
             roomPost: 'roomPosts/item',
+            attachments: 'attachments/items',
         })
     },
     methods: {
@@ -137,24 +139,25 @@ export default {
 
             await this.createRoomPost(requestBody)
 
-            if(Object.keys(this.errors).length == 0) {
-                const attachmentRequest = {
-                    roomPostId: this.roomPost.id,
-                    requestBody: {
-                        attachments: this.attachments,
-                    },
-                }
-                await this.attachFiles(attachmentRequest)
+            if(Object.keys(this.errors).length === 0) {
                 alert('Create success')
+                if(this.attachments.length > 0) {
+                    const attachmentRequest = {
+                        roomPostId: this.roomPost.id,
+                        requestBody: {
+                            attachments: this.attachments,
+                        },
+                    }
+                    await this.attachFiles(attachmentRequest)
+                }
             }
         },
-        async removeAttachment(attachment) {
-            this.attachments = this.attachments.filter(e => e != attachment)
-        },
         async handleFiles() {
-            this.attachments = this.attachments.concat(Array.from(this.$refs.attachments.files))
-            console.log(this.attachments)
-        }
+            store.commit(
+                'attachments/SET_ITEMS',
+                this.attachments.concat(Array.from(this.$refs.attachments.files))
+            )
+        },
     }
 }
 </script>

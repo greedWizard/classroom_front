@@ -17,7 +17,6 @@
 
 <script>
 import store  from '@/store'
-// import { mapActions, mapGetters } from 'vuex'
 
 
 export default {

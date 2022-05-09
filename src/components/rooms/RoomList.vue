@@ -1,8 +1,13 @@
 <template>
   <div>
+    <SearchByField 
+      :target="rooms"
+      :fieldName="'name'"
+      @onFilter="value => {this.filteredRooms = value}" 
+    />
     <div class="list-group">
       <div
-        v-for="room in rooms"
+        v-for="room in filteredRooms"
         :key="room.id"
       >
         <a
@@ -50,16 +55,26 @@
 
 <script>
 import { mapActions } from 'vuex'
+import SearchByField from '@/components/SearchByField.vue'
+
 
 export default {
+  components: {
+    SearchByField,
+  },
   props: {
     rooms: Array,
+  },
+  data() {
+    return {
+      filteredRooms: this.rooms,
+    }
   },
   methods: {
     ...mapActions({
       deleteRoom: 'rooms/deleteRoom',
     }),
-  }
+  },
 }
 </script>
 

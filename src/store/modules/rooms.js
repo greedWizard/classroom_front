@@ -6,6 +6,7 @@ export const state = {
     item: null,
     items: [],
     errors: {},
+    canModerate: false,
 }
 
 export const getters = {
@@ -17,6 +18,9 @@ export const getters = {
     },
     errors(state) {
         return state.errors
+    },
+    canModerate(state) {
+        return state.canModerate
     }
 }
 
@@ -29,6 +33,9 @@ export const mutations = {
     },
     SET_ERRORS(state, items) {
         state.errors = items
+    },
+    SET_CAN_MODERATE(state, canModerate) {
+        state.canModerate = canModerate
     }
 }
 
@@ -43,7 +50,6 @@ export const actions = {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
             })
-            console.log(response.body)
             commit('SET_ITEMS', response.body)
         } catch (e) {
             console.error(e)
@@ -54,13 +60,12 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.createRoom({}, {
+            await client.apis.classroom.createRoom({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
                 requestBody: requestBody,
             })
-            console.log(response.body)
             commit('SET_ERRORS', {})
         } catch (e) {
             console.error(e)
@@ -73,14 +78,13 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.deleteRoom({
+            await client.apis.classroom.deleteRoom({
                 room_id: roomId
             }, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
             })
-            console.log(response.body)
             dispatch('getRooms')
         } catch (e) {
             console.error(e.response.body)

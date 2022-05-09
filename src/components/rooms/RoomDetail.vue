@@ -19,7 +19,7 @@
     <div>
     <div v-if="canModerate">
         <a>Link to join:
-            <input type="text" disabled :value="join_link">
+            <input type="text" disabled :value="joinLink">
             <button class="btn btn-secondary btn-sm mr-4" @click="copyJoinLink">Copy</button>
             <template v-if="copied" class="mr-4" >Copied!</template>
         </a>
@@ -43,14 +43,11 @@
                             })"
                         >+</button>
                     </h4>
-                </a> <hr>
-                <div class="list-group">
-                    <div v-for="material in materials" :key="material.id">
-                        <RoomPostItem
-                            :roomPost="material" :canModerate="canModerate"
-                        />
-                    </div>
-                </div>
+                </a>
+                <RoomPostList 
+                    :roomPosts="materials"
+                    :type="'material'"
+                />
             </div>
         </div>
         <div class="d-flex w-50 justify-content-between">
@@ -68,14 +65,12 @@
                             })"
                         >+</button>
                     </h4>
-                </a> <hr>
-                <div class="list-group">
-                    <div v-for="homework in homeworks" :key="homework.id">
-                        <RoomPostItem
-                            :roomPost="homework" :canModerate="canModerate"
-                        />
-                    </div>
-                </div>
+                </a>
+                <RoomPostList 
+                    :roomPosts="homeworks"
+                    :type="'homework'"
+                    :storeCommitPath="'roomPosts/materials'"
+                />
             </div>
         </div>
     </div>
@@ -83,36 +78,42 @@
 </template>
 
 <script>
-import RoomPostItem from '@/components/posts/RoomPostItem.vue'
+import RoomPostList from '@/components/roomposts/RoomPostList.vue'
 import ParticipationsList from '@/components/participations/ParticipationsList.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 
 export default {
     components: {
-        RoomPostItem,
         ParticipationsList,
+        RoomPostList,
     },
     data() {
         return {
-            join_link: window.location.host + this.$router.resolve(
-                { name: 'room-join', params: { join_slug: this.room.join_slug } }
-            ).fullPath,
             copied: false,
+            filteredMaterials: this.materials,
+            filteredHomeworks: this.homeworks,
         }
     },
     computed: {
-        canModerate() {
-            return this.room.author.id === this.currentUser.id
-        },
         ...mapGetters({
             participations: 'participations/items',
-        })
+            canModerate: 'rooms/canModerate',
+            room: 'rooms/item',
+            currentUser: 'users/currentUser',
+            homeworks: 'roomPosts/homeworks',
+            materials: 'roomPosts/materials',
+        }),
+        joinLink() {
+            return window.location.host + this.$router.resolve(
+                { name: 'room-join', params: { join_slug: this.room.join_slug } }
+            ).fullPath
+        }
     },
     methods: {
         async copyJoinLink() {
             try {
-                await navigator.clipboard.writeText(this.join_link)
+                await navigator.clipboard.writeText(this.joinLink)
                 this.copied = true
             } catch(e) {
                 console.error(e)
@@ -121,12 +122,6 @@ export default {
         ...mapActions({
             getParticipations: 'participations/getParticipations',
         })
-    },
-    props: {
-        room: Object,
-        homeworks: Array,
-        materials: Object,
-        currentUser: Object,
     },
 }
 </script>

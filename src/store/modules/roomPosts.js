@@ -15,6 +15,12 @@ export const getters = {
     items(state) {
         return state.items
     },
+    homeworks(state) {
+        return state.items.filter(e => e.type === 'homework')
+    },
+    materials(state) {
+        return state.items.filter(e => e.type === 'material')
+    },
     errors(state) {
         return state.errors
     }
@@ -61,7 +67,7 @@ export const actions = {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
             })
-            commit('SET_ITEMS', response.body)
+            commit('SET_ITEMS', response.body.items)
         } catch (e) {
             console.error(e.response)
         }
