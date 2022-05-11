@@ -45,7 +45,6 @@
                     </h4>
                 </a>
                 <RoomPostList 
-                    :roomPosts="materials"
                     :type="'material'"
                 />
             </div>
@@ -67,9 +66,7 @@
                     </h4>
                 </a>
                 <RoomPostList 
-                    :roomPosts="homeworks"
                     :type="'homework'"
-                    :storeCommitPath="'roomPosts/materials'"
                 />
             </div>
         </div>
@@ -91,8 +88,6 @@ export default {
     data() {
         return {
             copied: false,
-            filteredMaterials: this.materials,
-            filteredHomeworks: this.homeworks,
         }
     },
     computed: {
@@ -101,8 +96,6 @@ export default {
             canModerate: 'rooms/canModerate',
             room: 'rooms/item',
             currentUser: 'users/currentUser',
-            homeworks: 'roomPosts/homeworks',
-            materials: 'roomPosts/materials',
         }),
         joinLink() {
             return window.location.host + this.$router.resolve(

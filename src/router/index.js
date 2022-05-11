@@ -14,6 +14,7 @@ import RoomDetail from '../views/rooms/detail/RoomDetail.vue'
 import RoomJoin from '../views/rooms/RoomJoin.vue'
 import RoomPostCreate from '../views/rooms/roomposts/CreateRoomPost.vue'
 import RoomPost from '../views/rooms/roomposts/RoomPostDetail.vue'
+import UpdateRoomPost from '../views/rooms/roomposts/UpdateRoomPost.vue'
 
 
 const routes = [
@@ -61,6 +62,11 @@ const routes = [
         path: ':roomId/roomPosts/:roomPostId',
         name: 'roomPost-detail',
         component: RoomPost,
+      },
+      {
+        path: ':roomId/roomPosts/:roomPostId/update',
+        name: 'roomPost-update',
+        component: UpdateRoomPost,
       }
     ]
   },

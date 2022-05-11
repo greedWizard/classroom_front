@@ -29,7 +29,7 @@ export default {
     },
     async setup(){
         const route = useRoute()
-        await store.dispatch('roomPosts/getRoomPost', route.params.roomPostId)
+        await store.dispatch('roomPosts/get', route.params.roomPostId)
         await store.dispatch('users/getCurrentUser')
         return {}
     },

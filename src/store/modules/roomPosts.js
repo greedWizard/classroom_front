@@ -3,7 +3,7 @@ import { apiClient } from "@/logic/api.js";
 export const namespaced = true;
 
 export const state = {
-    item: null,
+    item: {},
     items: [],
     errors: {},
 }
@@ -14,12 +14,6 @@ export const getters = {
     },
     items(state) {
         return state.items
-    },
-    homeworks(state) {
-        return state.items.filter(e => e.type === 'homework')
-    },
-    materials(state) {
-        return state.items.filter(e => e.type === 'material')
     },
     errors(state) {
         return state.errors
@@ -106,7 +100,7 @@ export const actions = {
             console.error(e)
         }
     },
-    async getRoomPost({ commit }, roomPostId) {
+    async get({ commit }, roomPostId) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
 

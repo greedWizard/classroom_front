@@ -19,7 +19,13 @@
       </template>
     </div>
     <template v-if="canModerate">
-      <button class="btn btn-outline-success btn-sm mb-2 shadow-sm">Edit</button>
+      <button
+        class="btn btn-outline-success btn-sm mb-2 shadow-sm"
+        @click="$router.push({
+            name: 'roomPost-update',
+            params: { roomId: roomPost.room_id, roomPostId: roomPost.id }
+        })"
+      >Edit</button>
       <button
         @click="deleteRoomPost(roomPost)"
         class="btn btn-outline-danger btn-sm shadow-sm"

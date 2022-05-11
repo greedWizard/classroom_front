@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h2>Create new room post</h2>
+    <h2>Create new room post </h2>
     <button
         class="btn btn-outline-secondary btn-sm"
         @click="$router.push({name: 'room-detail', params: { id: $route.params.roomId }})"
@@ -12,12 +12,12 @@
                 <div class="col-md-7 col-lg-5 col-xl-5 ">
                     <label for="roompostSelect" class="mb-2">Post type </label>
                     <select
-                        v-model="postType"
+                        v-model="roomPost.type"
                         class="form-control mb-2"
                         id="roompostSelect"
                     >
-                        <option>Material</option>
-                        <option>Homework</option>
+                        <option>material</option>
+                        <option>homework</option>
                     </select>
                     <div class="mb-3">
                         <label
@@ -31,7 +31,7 @@
                             class="form-control"
                             id="title"
                             :placeholder="'Enter your title'"
-                            v-model="title"
+                            v-model="roomPost.title"
                         >
                     </div>
                     <div class="mb-3">
@@ -46,13 +46,13 @@
                             class="form-control"
                             id="title"
                             :placeholder="'Enter your description'"
-                            v-model="description"
+                            v-model="roomPost.description"
                         >
                     </div>
                     <div class="mb-4">
                         <label for="textArea" class="mb-2">Text</label>
                         <textarea
-                            v-model="text"
+                            v-model="roomPost.text"
                             class="form-control"
                             id="textArea"
                             rows="15"
@@ -80,8 +80,8 @@
                             type="button"
                             class="btn btn-primary"
                             @click="handlePostCreate"
-                            :disabled="!postType"
-                        >Create post</button>
+                            :disabled="!roomPost.type"
+                        >{{ roomPost.id ? 'Update' : 'Create' }} room post</button>
                     </div>
                 </div>
             </div>
@@ -97,24 +97,16 @@ import store from '@/store'
 
 
 export default {
-    props: {
-        initialPost: Object,
+    data() {
+        return {
+            queryType: this.$route.query.type || 'material'
+        }
     },
     components: {
         AttachmentsList
     },
     created() {
-        store.commit('attachments/SET_ITEMS', this.initialPost.attachments || [])
-    },
-    data() {
-        const queryType = this.$route.query.type || 'material'
-
-        return {
-            postType: queryType.charAt(0).toUpperCase() + queryType.slice(1),
-            title: this.initialPost.title,
-            text: this.initialPost.text,
-            description: this.initialPost.description,
-        }
+        store.commit('attachments/SET_ITEMS', this.roomPost.attachments || [])
     },
     computed: {
         ...mapGetters({
@@ -130,24 +122,31 @@ export default {
         }),
         async handlePostCreate() {
             const requestBody = {
-                title: this.title || '',
-                text: this.text,
-                description: this.description,
+                title: this.roomPost.title,
+                text: this.roomPost.text,
+                description: this.roomPost.description,
                 room_id: this.$route.params.roomId,
-                type: this.postType.toLowerCase(),
+                type: this.roomPost.type.toLowerCase(),
             }
 
-            await this.createRoomPost(requestBody)
+            if(!this.roomPost.id) {
+                await this.createRoomPost(requestBody)
+                alert('Create success')
+                store.commit(
+                    'roomPosts/SET_ITEM',
+                    { type: this.queryType }
+                )
+            }
 
             if(Object.keys(this.errors).length === 0) {
-                alert('Create success')
                 if(this.attachments.length > 0) {
                     const attachmentRequest = {
                         roomPostId: this.roomPost.id,
                         requestBody: {
-                            attachments: this.attachments,
+                            attachments: this.attachments.filter(attachment => !attachment.id),
                         },
                     }
+
                     await this.attachFiles(attachmentRequest)
                 }
             }
