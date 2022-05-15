@@ -4,17 +4,17 @@
         <h3>{{ room.name }}</h3> <br>
         <h5 class="mb-4 text-muted">
             {{ room.description }}
-            <button
-                href="#"
-                class="btn btn-info btn-sm mb-4"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#participationsModal"
-                @click="getParticipations($route.params.id)"
-            >
-                Show Members &#128101; {{ room.participations_count }}
-            </button>
         </h5>
+        <button
+            href="#"
+            class="btn btn-info btn-sm mb-4"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#participationsModal"
+            @click="getParticipations($route.params.id)"
+        >
+            Show Members &#128101; {{ room.participations_count }}
+        </button>
         <ParticipationsList :participations="participations"/>
     <div>
     <div v-if="canModerate">

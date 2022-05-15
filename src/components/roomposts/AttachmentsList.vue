@@ -41,7 +41,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            getAttachment: 'attachments/get'
+            getAttachment: 'attachments/get',
+            deleteAttachment: 'attachments/delete',
         }),
         async startDownload(attachment) {
             if(attachment.id) {
@@ -50,6 +51,9 @@ export default {
             }
         },
         async removeAttachment(attachment) {
+            if(attachment.id) {
+                await this.deleteAttachment(attachment.id)
+            } 
             store.commit('attachments/SET_ITEMS', this.attachments.filter(e => e != attachment))
         }
     }

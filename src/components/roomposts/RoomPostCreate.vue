@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h2>Create new room post </h2>
+    <h2>{{ roomPost.id ? 'Update' : 'Create' }} room post </h2>
     <button
         class="btn btn-outline-secondary btn-sm"
         @click="$router.push({name: 'room-detail', params: { id: $route.params.roomId }})"
@@ -119,31 +119,46 @@ export default {
         ...mapActions({
             createRoomPost: 'roomPosts/create',
             attachFiles: 'roomPosts/attachFilesToRoomPost',
+            updateRoomPost: 'roomPosts/update',
         }),
         async handlePostCreate() {
-            const requestBody = {
-                title: this.roomPost.title,
-                text: this.roomPost.text,
-                description: this.roomPost.description,
-                room_id: this.$route.params.roomId,
-                type: this.roomPost.type.toLowerCase(),
-            }
+            const attachmentsToUpload = this.attachments.filter(attachment => !attachment.id)
 
-            if(!this.roomPost.id) {
-                await this.createRoomPost(requestBody)
+            if(this.roomPost.id) {
+                await this.updateRoomPost({
+                    roomPostId: this.roomPost.id,
+                    requestBody: {
+                        title: this.roomPost.title,
+                        text: this.roomPost.text,
+                        description: this.roomPost.description,
+                        type: this.roomPost.type,
+                    }
+                })
+            } else {
+                await this.createRoomPost({
+                    title: this.roomPost.title,
+                    text: this.roomPost.text,
+                    description: this.roomPost.description,
+                    room_id: this.$route.params.roomId,
+                    type: this.roomPost.type.toLowerCase(),
+                })
                 alert('Create success')
                 store.commit(
                     'roomPosts/SET_ITEM',
                     { type: this.queryType }
                 )
+                store.commit(
+                    'attachments/SET_ITEMS',
+                    [],
+                )
             }
 
             if(Object.keys(this.errors).length === 0) {
-                if(this.attachments.length > 0) {
+                if(attachmentsToUpload.length > 0) {
                     const attachmentRequest = {
                         roomPostId: this.roomPost.id,
                         requestBody: {
-                            attachments: this.attachments.filter(attachment => !attachment.id),
+                            attachments: attachmentsToUpload,
                         },
                     }
 

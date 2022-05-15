@@ -49,5 +49,22 @@ export const actions = {
             commit('SET_ERRORS', e.response.body.detail)
 
         }
+    },
+    async delete({ commit }, attachmentId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            await client.apis.attachments.deleteAttachment({
+                attachment_id: attachmentId
+            }, {
+                requestInterceptor: request => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                }
+            })
+        } catch (e) {
+            console.error(e.response.body)
+            commit('SET_ERRORS', e.response.body.detail)
+        }
     }
 }

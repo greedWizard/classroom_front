@@ -86,7 +86,7 @@ export const actions = {
     async attachFilesToRoomPost(context, { roomPostId, requestBody }) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
-        
+
         try {
             await client.apis.classroom.attachFilesToRoomPost({
                 room_post_id: roomPostId
@@ -97,7 +97,7 @@ export const actions = {
                 requestBody: requestBody,
             })
         } catch (e) {
-            console.error(e)
+            console.error(e.response.body)
         }
     },
     async get({ commit }, roomPostId) {
@@ -116,6 +116,26 @@ export const actions = {
         }
         catch (e) {
             console.error(e)
+        }
+    },
+    async update({ commit }, { roomPostId, requestBody }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.classroom.updateRoomPost({
+                room_post_id: roomPostId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+            commit('SET_ITEM', response.body)
+            commit('SET_ERRORS', {})
+        } catch (e) {
+            console.error(e.response.body)
+            commit('SET_ERRORS', e.response.body.detail)
         }
     }
 }

@@ -1,13 +1,13 @@
 <template>
   <RouterView name="default" v-slot="{ Component, route }">
-      <transition :name="route.meta.transition" mode="out-in" :duration="300" :key="route.path">
+      <transition :name="route.meta.transition" mode="out-in" :duration="1" :key="route.path">
         <Suspense >
           <template #default>
             <component :is="Component" :key="route.path"/>
           </template>
           <template #fallback>
-            <div>
-              Loading...
+            <div class="spinner-border text-info centered" role="status">
+              <span class="sr-only"></span>
             </div>
           </template>
         </Suspense>
@@ -27,5 +27,11 @@ export default {
 </script>
 
 <style>
-
+.centered {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 </style>
