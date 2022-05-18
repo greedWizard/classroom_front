@@ -5,6 +5,7 @@
         class="btn btn-outline-secondary btn-sm"
         @click="$router.push({name: 'room-detail', params: { id: $route.params.roomId }})"
     >Return to room</button>
+    {{ errors }}
     <hr>
     <section class="vh-100">
         <div class="container">
@@ -39,7 +40,7 @@
                             for="exampleFormControlInput1"
                             class="form-label"
                         >
-                            Description
+                            Description {{ errors.description }}
                         </label>
                         <input
                             type="text"
@@ -59,17 +60,7 @@
                             placeholder="Text"
                         ></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="formFileSm" class="form-label">Add attachments</label>
-                        <input
-                            class="form-control form-control-sm"
-                            id="formFileSm"
-                            type="file"
-                            ref="attachments"
-                            @change="handleFiles"
-                            multiple
-                        >
-                    </div>
+                    <AttachmentControl :multiple="false"/>
                     <div class="mb-3">
                         <AttachmentsList
                             :allowEdit="true"
@@ -93,6 +84,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import AttachmentsList from '@/components/roomposts/AttachmentsList'
+import AttachmentControl from '@/components/attachments/AttachmentControl.vue'
 import store from '@/store'
 
 
@@ -103,7 +95,8 @@ export default {
         }
     },
     components: {
-        AttachmentsList
+        AttachmentsList,
+        AttachmentControl,
     },
     created() {
         store.commit('attachments/SET_ITEMS', this.roomPost.attachments || [])
@@ -123,6 +116,9 @@ export default {
         }),
         async handlePostCreate() {
             const attachmentsToUpload = this.attachments.filter(attachment => !attachment.id)
+            var isCreated = false;
+            console.log(this.attachments)
+            console.log(attachmentsToUpload)
 
             if(this.roomPost.id) {
                 await this.updateRoomPost({
@@ -142,18 +138,13 @@ export default {
                     room_id: this.$route.params.roomId,
                     type: this.roomPost.type.toLowerCase(),
                 })
-                alert('Create success')
-                store.commit(
-                    'roomPosts/SET_ITEM',
-                    { type: this.queryType }
-                )
-                store.commit(
-                    'attachments/SET_ITEMS',
-                    [],
-                )
+                if(this.roomPost.id) {
+                    alert('Create success')
+                    isCreated = true
+                }
             }
 
-            if(Object.keys(this.errors).length === 0) {
+            if(this.roomPost) {
                 if(attachmentsToUpload.length > 0) {
                     const attachmentRequest = {
                         roomPostId: this.roomPost.id,
@@ -165,12 +156,17 @@ export default {
                     await this.attachFiles(attachmentRequest)
                 }
             }
-        },
-        async handleFiles() {
-            store.commit(
-                'attachments/SET_ITEMS',
-                this.attachments.concat(Array.from(this.$refs.attachments.files))
-            )
+
+            if(isCreated) {
+                store.commit(
+                    'roomPosts/SET_ITEM',
+                    { type: this.queryType }
+                )
+                store.commit(
+                    'attachments/SET_ITEMS',
+                    [],
+                )
+            }
         },
     }
 }

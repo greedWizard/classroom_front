@@ -12,20 +12,47 @@
     <hr>
     <div class="container">
         <div class="row d-flex align-items-center" >
-            <div class="col-md-7 col-lg-5 col-xl-5 ">
-                <div class="form-outline mb-4">
-                    <h4>{{ post.description }}</h4>
+                <div>
+                    <h4>{{ post.description || 'No description' }}</h4>
                 </div>
+
+                <div class="col-md-7 col-lg-5 col-xl-5 ">
                 <hr>
 
                 <div v-if="post.text" class="row d-flex align-items-center">
-                    <p>{{ post.text }}</p>
+                    <p>{{ post.text || 'No text' }}</p>
+                </div>
+                <div v-if="post.type === 'homework'" class="row d-flex align-items-center">
+                    <div v-if="!allowEdit && !post.assignment">
+                        <button
+                            class="btn btn-outline-success btn-sm mb-4"
+                            
+                            data-bs-toggle="modal"
+                            data-bs-target="#assignmentDetailModal"
+                        >
+                            Turn In Homework
+                        </button>
+                        <AssignmentDetail />
+                    </div>
+                    <button
+                        class="btn btn-outline-success btn-sm"
+                        @click="$router.push({
+                            name: 'assigned-homeworks',
+                            params: {
+                                roomPostId: post.id ,
+                                roomId: $route.params.roomId,
+                            } 
+                        })"
+                        v-else-if="allowEdit"
+                    >
+                        Assigned Homeworks
+                    </button>
                 </div>
                 <div v-if="post.attachments.length">
                     <p>{{ post.attachments.length }} attached files</p>
                     <div class="form-outline mb-4">
                         <AttachmentsList 
-                            :allowEdit="user.id === post.author_id"
+                            :allowEdit="allowEdit"
                         />
                     </div>
                 </div>
@@ -33,8 +60,9 @@
                     <p>No files attached</p>
                 </div>
             </div>
-            <div class="col-md-7 col-lg-5 col-xl-5 ">
-            </div>
+        </div>
+        <div class="row d-flex align-items-end" >
+           
         </div>
     </div>
 </section>
@@ -43,18 +71,25 @@
 <script>
 import AttachmentsList from '@/components/roomposts/AttachmentsList'
 import store from '@/store'
+import AssignmentDetail from '../assignments/AssignmentDetail.vue'
 
 export default {
     components: {
-        AttachmentsList
+        AttachmentsList,
+        AssignmentDetail,
     },
     props: {
         post: Object,
         type: String,
         user: Object,
     },
-    created(){
+    created() {
         store.commit('attachments/SET_ITEMS', this.post.attachments)
+    },
+    computed: {
+        allowEdit() {
+            return this.user.id === this.post.author.id
+        }
     }
 }
 </script>

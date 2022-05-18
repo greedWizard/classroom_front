@@ -15,6 +15,7 @@ import RoomJoin from '../views/rooms/RoomJoin.vue'
 import RoomPostCreate from '../views/rooms/roomposts/CreateRoomPost.vue'
 import RoomPost from '../views/rooms/roomposts/RoomPostDetail.vue'
 import UpdateRoomPost from '../views/rooms/roomposts/UpdateRoomPost.vue'
+import AssignedHomeworks from '@/views/rooms/assignments/AssignedHomeworks'
 
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
     name: 'rooms',
     component: RoomIndex,
     children: [
+      {
+        path: ':roomId/roomPosts/:roomPostId/assignments',
+        name: 'assigned-homeworks',
+        component: AssignedHomeworks,
+      },
       {
         path: 'list',
         name: 'room-list',

@@ -5,6 +5,7 @@ import * as tabs from '@/store/modules/tabs.js'
 import * as roomPosts from '@/store/modules/roomPosts.js'
 import * as participations from '@/store/modules/participations.js'
 import * as attachments from '@/store/modules/attachments.js'
+import * as assignments from '@/store/modules/assignments.js'
 
 
 export default createStore({
@@ -17,6 +18,6 @@ export default createStore({
   modules: {
     rooms, users, tabs,
     roomPosts, participations,
-    attachments,
+    attachments, assignments,
   }
 })
