@@ -20,10 +20,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <AssignmentCreate v-if="!assignment.id || assignment.status === 'request changes'"/>
+            <AssignmentCreate v-if="!assignment.id || assignment.status !== 'done'" />
+            <AssignmentTeacherInfo v-else-if="assignment.id" />
         </div>
         <div class="modal-footer">
-            {{ roomPost.assignment }}
             <button
                 type="button"
                 class="btn btn-secondary"
@@ -41,11 +41,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import AssignmentCreate from '@/components/assignments/AssignmentCreate'
+import AssignmentTeacherInfo from '@/components/assignments/AssignmentTeacherInfo.vue'
 import store from '@/store'
 
 export default {
     components: {
-        AssignmentCreate
+        AssignmentCreate,
+        AssignmentTeacherInfo,
     },
     computed: {
         ...mapGetters({

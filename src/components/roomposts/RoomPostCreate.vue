@@ -144,7 +144,7 @@ export default {
                 }
             }
 
-            if(this.roomPost) {
+            if(this.roomPost.id) {
                 if(attachmentsToUpload.length > 0) {
                     const attachmentRequest = {
                         roomPostId: this.roomPost.id,

@@ -35,13 +35,15 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.getAssignmentsForTeacher({
+            const response = await client.apis.classroom.getAssignmentsForRoomPost({
                 assigned_room_post_id: roomPostId
             }, {
                 requestInterceptor: request => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 }
             })
+            
+            commit('SET_ITEMS', response.body)
         } catch (e) {
             console.error(e)
             commit('SET_ERRORS', e)
@@ -52,15 +54,34 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            await client.apis.classroom.assignHomework({}, {
+            const response = await client.apis.classroom.assignHomework({}, {
                 requestInterceptor: request => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+
+            commit('SET_ITEM', response.body)
+        } catch (e) {
+            console.error(e)
+            commit('SET_ERRORS', e)
+        }
+    },
+    async attachFiles(context, { assignmentId, requestBody }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            await client.apis.classroom.attachFilesToAssignment({
+                assignment_id: assignmentId
+            }, {
+                requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
                 requestBody: requestBody,
             })
         } catch (e) {
             console.error(e)
-            commit('SET_ERRORS', e)
         }
-    }
+    },
 }

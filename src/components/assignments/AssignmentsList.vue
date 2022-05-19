@@ -1,12 +1,26 @@
 <template>
-  <div>
-      <div v-if="assignments.length === 0">
-          <h3>No assignments</h3>
-      </div>
-      <div v-for="assignment in assignments" :key="assignment.id">
-          <AssignmentListItem :assignment="assignment" />
-      </div>
-  </div>
+<div class="container">
+    <div class="row d-flex align-items-end">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Middle name</th>
+                    <th scope="col">Assigned at</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Related homework</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="assignment in assignments" :key="assignment.id">
+                    <AssignmentListItem :assignment="assignment" />
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </template>
 
 <script>

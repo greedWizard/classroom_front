@@ -9,7 +9,6 @@
             Return to room
         </button>
     </div> <hr>
-    <hr>
     <div class="container">
         <div class="row d-flex align-items-center" >
                 <div>
@@ -24,14 +23,7 @@
                 </div>
                 <div v-if="post.type === 'homework'" class="row d-flex align-items-center">
                     <div v-if="!allowEdit">
-                        <button
-                            class="btn btn-outline-success btn-sm mb-4"
-                            data-bs-toggle="modal"
-                            data-bs-target="#assignmentDetailModal"
-                            @click="setAssignmentAttachments"
-                        >
-                            Show Homework
-                        </button>
+                        <AssignmentShowButton />
                         <AssignmentDetail />
                     </div>
                     <button
@@ -51,7 +43,7 @@
                 <div v-if="post.attachments.length">
                     <p>{{ post.attachments.length }} attached files</p>
                     <div class="form-outline mb-4">
-                        <AttachmentsList 
+                        <AttachmentsList
                             :allowEdit="false"
                         />
                     </div>
@@ -61,9 +53,6 @@
                 </div>
             </div>
         </div>
-        <div class="row d-flex align-items-end" >
-           
-        </div>
     </div>
 </section>
 </template>
@@ -72,12 +61,14 @@
 import AttachmentsList from '@/components/roomposts/AttachmentsList'
 import store from '@/store'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
+import AssignmentShowButton from '@/components/assignments/AssignmentDetailShowButton.vue'
 
 
 export default {
     components: {
         AttachmentsList,
         AssignmentDetail,
+        AssignmentShowButton,
     },
     props: {
         post: Object,
@@ -86,23 +77,13 @@ export default {
     },
     created() {
         store.commit('attachments/SET_ITEMS', this.post.attachments)
+        store.commit('assignments/SET_ITEM', this.post.assignment)
     },
     computed: {
         allowEdit() {
             return this.user.id === this.post.author.id
         },
     },
-    methods: {
-        async setAssignmentAttachments() {
-            var attachments = []
-
-            if(this.post.assignment) {
-                attachments = this.post.assignment.attachments
-            }
-            
-            store.commit('attachments/SET_ITEMS', attachments)
-        }
-    }
 }
 </script>
 
