@@ -1,6 +1,6 @@
 <template>
   <div>
-        <h2>Homework assignments</h2>
+        <h2>{{ roomPost.title }} assignments</h2>
         <button
             class="btn btn-outline-secondary btn-sm"
             @click="$router.push({
@@ -17,9 +17,15 @@
 import AssignmentsList from '@/components/assignments/AssignmentsList.vue'
 import store from '@/store'
 import { useRoute } from 'vue-router'
+import { mapGetters } from 'vuex'
 
 
 export default {
+    computed: {
+        ...mapGetters({
+            roomPost: 'roomPosts/item',
+        })
+    },
     components: { AssignmentsList },
     async setup() {
         const route = useRoute()

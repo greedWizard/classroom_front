@@ -117,8 +117,6 @@ export default {
         async handlePostCreate() {
             const attachmentsToUpload = this.attachments.filter(attachment => !attachment.id)
             var isCreated = false;
-            console.log(this.attachments)
-            console.log(attachmentsToUpload)
 
             if(this.roomPost.id) {
                 await this.updateRoomPost({

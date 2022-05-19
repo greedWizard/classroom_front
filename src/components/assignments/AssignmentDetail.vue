@@ -1,7 +1,6 @@
 <template>
-<div class="modal fade" id="assignmentDetailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignmentDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="assignmentDetailModalLabel">
                 {{ roomPost.title }}
@@ -20,8 +19,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <AssignmentCreate v-if="!assignment.id || assignment.status !== 'done'" />
-            <AssignmentTeacherInfo v-else-if="assignment.id" />
+            <AssignmentCreate v-if="isAuthor" />
+            <AssignmentTeacherInfo v-else />
         </div>
         <div class="modal-footer">
             <button
@@ -32,7 +31,6 @@
             >
                 Close
             </button>
-        </div>
         </div>
     </div>
 </div>
@@ -54,7 +52,13 @@ export default {
             assignment: 'assignments/item',
             currentUser: 'users/currentUser',
             roomPost: 'roomPosts/item',
-        })
+        }),
+        isAuthor() {
+            if(!this.assignment.id) {
+                return false
+            }
+            return this.currentUser.id === this.assignment.author.id
+        }
     },
     methods: {
         async returnAttachmentsFromRoomPost() {
@@ -63,7 +67,7 @@ export default {
     },
     async created() {
         store.commit('assignments/SET_ITEM', this.roomPost.assignment || {})
-    }
+    },
 }
 </script>
 

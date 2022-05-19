@@ -11,11 +11,11 @@
     </div> <hr>
     <div class="container">
         <div class="row d-flex align-items-center" >
-                <div>
-                    <h4>{{ post.description || 'No description' }}</h4>
-                </div>
+            <div>
+                <h4>{{ post.description || 'No description' }}</h4>
+            </div>
 
-                <div class="col-md-7 col-lg-5 col-xl-5 ">
+            <div class="col-md-7 col-lg-5 col-xl-5 ">
                 <hr>
 
                 <div v-if="post.text" class="row d-flex align-items-center">
@@ -24,7 +24,9 @@
                 <div v-if="post.type === 'homework'" class="row d-flex align-items-center">
                     <div v-if="!allowEdit">
                         <AssignmentShowButton />
-                        <AssignmentDetail />
+                        <div class="modal fade" id="assignmentDetailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignmentDetailModalLabel" aria-hidden="true">
+                            <AssignmentDetail />
+                        </div>
                     </div>
                     <button
                         class="btn btn-outline-success btn-sm"

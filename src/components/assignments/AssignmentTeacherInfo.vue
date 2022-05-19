@@ -1,9 +1,17 @@
 <template>
 <div>
-    <div
-        class="container"
-        v-if="!isAuthor && assignmentStatus === 'assigned'"
-    >
+    <div class="container">
+        <div v-if="assignment.status === 'assigned'" class="mb-4">
+            <h3>
+                {{ assignment.author.first_name }} {{ assignment.author.middle_name }} {{ assignment.author.last_name }}
+                has assigned the homework
+            </h3>
+            <span>Checkout the files with homework and make your decision</span>
+        </div>
+        
+        <div class="mb-4">
+            <AttachmentsList :allowEdit="false" />
+        </div>
         <div class="row mb-4">
             <div class="col">
                 <input
@@ -14,7 +22,11 @@
                 >
             </div>
             <div class="col d-grid gap-2">
-                <button class="btn btn-danger btn-sm">Reject</button>
+                <button
+                    class="btn btn-danger btn-sm"
+                >
+                    Reject
+                </button>
             </div>
         </div>
         <div class="row">
@@ -38,21 +50,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import AttachmentsList from '@/components/roomposts/AttachmentsList.vue'
+
 
 export default {
+    components: {
+        AttachmentsList
+    },
     computed: {
         ...mapGetters({
             assignment: 'assignments/item',
-            currentUser: 'users/currentUser',
             roomPost: 'roomPosts/item',
         }),
-        isAuthor() {
-            if(this.currentUser.id === this.roomPost.author.id) {
-                return false
-            }
-
-            return true
-        }
     }
 }
 </script>

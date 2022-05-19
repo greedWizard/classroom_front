@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="col-md-7 col-lg-5 col-xl-9">
-        <h3 v-if="!assignment.id">Turn in your homework</h3>
-        <h3 v-else-if="assignment.status === 'assigned'">Your homework is assigned</h3>
-        <h3 v-else-if="assignment.status === 'request changes'">Assigned homework needs some changes, read the remark</h3>
-        <h3 v-else-if="assignment.status === 'done'">Your homework is done</h3>
-
+        <template v-if="isAuthor">
+            <h3 v-if="!assignment.id">Turn in your homework</h3>
+            <h3 v-else-if="assignment.status === 'assigned'">Your homework is assigned</h3>
+            <h3 v-else-if="assignment.status === 'request changes'">Assigned homework needs some changes, read the remark</h3>
+            <h3 v-else-if="assignment.status === 'done'">Your homework is done</h3>
+        </template>
         <template v-if="assignment.comment">
             <span>Teacher's remark: {{ assignment.comment }}</span>
         </template>
