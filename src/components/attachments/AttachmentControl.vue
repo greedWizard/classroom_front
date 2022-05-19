@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="mb-3">
-        <label for="formFileSm" class="form-label">Add attachments</label>
         <input
             class="form-control form-control-sm"
             id="formFileSm"

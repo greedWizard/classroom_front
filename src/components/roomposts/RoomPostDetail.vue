@@ -23,14 +23,14 @@
                     <p>{{ post.text || 'No text' }}</p>
                 </div>
                 <div v-if="post.type === 'homework'" class="row d-flex align-items-center">
-                    <div v-if="!allowEdit && !post.assignment">
+                    <div v-if="!allowEdit">
                         <button
                             class="btn btn-outline-success btn-sm mb-4"
-                            
                             data-bs-toggle="modal"
                             data-bs-target="#assignmentDetailModal"
+                            @click="setAssignmentAttachments"
                         >
-                            Turn In Homework
+                            Show Homework
                         </button>
                         <AssignmentDetail />
                     </div>
@@ -52,7 +52,7 @@
                     <p>{{ post.attachments.length }} attached files</p>
                     <div class="form-outline mb-4">
                         <AttachmentsList 
-                            :allowEdit="allowEdit"
+                            :allowEdit="false"
                         />
                     </div>
                 </div>
@@ -73,6 +73,7 @@ import AttachmentsList from '@/components/roomposts/AttachmentsList'
 import store from '@/store'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
 
+
 export default {
     components: {
         AttachmentsList,
@@ -89,6 +90,17 @@ export default {
     computed: {
         allowEdit() {
             return this.user.id === this.post.author.id
+        },
+    },
+    methods: {
+        async setAssignmentAttachments() {
+            var attachments = []
+
+            if(this.post.assignment) {
+                attachments = this.post.assignment.attachments
+            }
+            
+            store.commit('attachments/SET_ITEMS', attachments)
         }
     }
 }

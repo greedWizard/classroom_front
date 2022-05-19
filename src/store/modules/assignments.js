@@ -3,7 +3,7 @@ import { apiClient } from "@/logic/api.js";
 export const namespaced = true;
 
 export const state = {
-    item: null,
+    item: {},
     items: [],
     errors: {},
 }
@@ -41,6 +41,22 @@ export const actions = {
                 requestInterceptor: request => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 }
+            })
+        } catch (e) {
+            console.error(e)
+            commit('SET_ERRORS', e)
+        }
+    },
+    async create({ commit }, requestBody) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            await client.apis.classroom.assignHomework({}, {
+                requestInterceptor: request => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
             })
         } catch (e) {
             console.error(e)
