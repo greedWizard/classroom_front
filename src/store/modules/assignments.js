@@ -1,4 +1,6 @@
 import { apiClient } from "@/logic/api.js";
+import store from '@/store'
+
 
 export const namespaced = true;
 
@@ -60,6 +62,8 @@ export const actions = {
                 },
                 requestBody: requestBody,
             })
+            alert(response.body)
+            console.log(response.body)
 
             commit('SET_ITEM', response.body)
         } catch (e) {
@@ -72,7 +76,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            await client.apis.classroom.attachFilesToAssignment({
+            const response = await client.apis.classroom.attachFilesToAssignment({
                 assignment_id: assignmentId
             }, {
                 requestInterceptor: (request) => {
@@ -80,6 +84,71 @@ export const actions = {
                 },
                 requestBody: requestBody,
             })
+            var currentAssignment = context.getters['item']
+            var currentAttachments = currentAssignment.attachments.concat(Array.from(response.body))
+
+            store.commit('attachments/SET_ITEMS', currentAttachments)
+
+            context.commit(
+                'SET_ITEM',
+                Object.assign(
+                    currentAssignment, 
+                    { attachments: currentAttachments }
+                )
+            )
+        } catch (e) {
+            console.error(e)
+        }
+    },
+    async requestChanges(context, { assignmentId, requestBody }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.classroom.requestAssignmentChanges({
+                assignment_id: assignmentId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+            context.commit('SET_ITEM', response.body)
+        } catch (e) {
+            console.error(e)
+        }
+    },
+    async reassign(context, assignmentId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.classroom.reassignHomework({
+                assignment_id: assignmentId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            context.commit('SET_ITEM', response.body)
+        } catch (e) {
+            console.error(e)
+        }
+    },
+    async rateHomework(context, { assignmentId, requestBody }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.classroom.rateHomework({
+                assignment_id: assignmentId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+                requestBody: requestBody,
+            })
+            context.commit('SET_ITEM', response.body)
         } catch (e) {
             console.error(e)
         }

@@ -7,20 +7,33 @@
             <h3 v-else-if="assignment.status === 'request changes'">Assigned homework needs some changes, read the remark</h3>
             <h3 v-else-if="assignment.status === 'done'">Your homework is done</h3>
         </template>
-        <template v-if="assignment.comment">
-            <span>Teacher's remark: {{ assignment.comment }}</span>
-        </template>
 
-        <p class="mb-4">Attach files with your homework</p>
+        <span
+            v-if="assignment.comment"
+            class="link-secondary"
+        >
+            Teacher's remark: {{ assignment.comment }}
+        </span>
+
+        <div class="mb-4">
+            <div v-if="!isBlocked">
+                <h3 class="mb-4">Attach files with your homework</h3>
+                <AttachmentControl :multiple="true" v-show="!isBlocked"/>
+            </div>
+            <div v-else>
+                <h3>Homework is done.</h3>
+                <span>You got {{ assignment.rate }} / 5</span>
+            </div>
+        </div>
         <div class="mb-3">
-            <AttachmentControl :multiple="true" />
-            <AttachmentsList :allowEdit="true" />
+            <AttachmentsList :allowEdit="!isBlocked" />
         </div>
         <div class="d-grid gap-2">
             <button
                 class="btn btn-outline-success btn-sm"
                 type="button"
                 @click="createAssignment"
+                v-show="!isBlocked"
             >
                 Submit
             </button>
@@ -44,7 +57,10 @@ export default {
         ...mapGetters({
             assignment: 'assignments/item',
             attachments: 'attachments/items',
-        })
+        }),
+        isBlocked() {
+            return this.assignment.status === 'done'
+        }
     },
     methods: {
         async createAssignment() {
@@ -57,9 +73,11 @@ export default {
                         assigned_room_post_id: this.$route.params.roomPostId,
                     }
                 )
+            } else if (this.assignment.status == 'changes requested') {
+                await store.dispatch('assignments/reassign', this.assignment.id)
             }
 
-            if(this.assignment.id) {
+            if(this.assignment.id && attachmentsToUpload.length) {
                 alert('Create success')
 
                 await store.dispatch(

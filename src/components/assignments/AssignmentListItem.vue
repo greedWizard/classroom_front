@@ -18,23 +18,25 @@
 </th>
 <th>{{ assignment.rate || '-' }}</th>
 <th>
-    <router-link
-        :to="{
+    <span
+        @click="$router.push({
             name: 'roomPost-detail',
             params: $route.params,
-        }"
-        class="link-secondary"
+        })"
+        class="badge rounded-pill bg-secondary mb-4"
+        style="cursor: pointer; margin-left: 1rem;"
     >
         Go to homework post
-    </router-link>
-    <button
-        class="btn btn-outline-success btn-sm mb-4"
+    </span>
+    <span
+        class="badge rounded-pill bg-success mb-4"
         data-bs-toggle="modal"
         data-bs-target="#assignmentDetailModal2"
         @click="setAssignment"
+        style="cursor: pointer; margin-left: 1rem;"
     >
         Show Homework
-    </button>
+    </span>
 </th>
 </template>
 

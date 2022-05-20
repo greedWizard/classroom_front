@@ -55,7 +55,7 @@ export default {
         }),
         isAuthor() {
             if(!this.assignment.id) {
-                return false
+                return true
             }
             return this.currentUser.id === this.assignment.author.id
         }

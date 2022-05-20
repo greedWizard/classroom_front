@@ -5,7 +5,6 @@
         class="btn btn-outline-secondary btn-sm"
         @click="$router.push({name: 'room-detail', params: { id: $route.params.roomId }})"
     >Return to room</button>
-    {{ errors }}
     <hr>
     <section class="vh-100">
         <div class="container">

@@ -53,8 +53,13 @@ export default {
         async removeAttachment(attachment) {
             if(attachment.id) {
                 await this.deleteAttachment(attachment.id)
-            } 
-            store.commit('attachments/SET_ITEMS', this.attachments.filter(e => e != attachment))
+            }
+            const filteredAttachments = this.attachments.filter(e => e != attachment)
+            store.commit('attachments/SET_ITEMS', filteredAttachments)
+            store.commit(
+                'assignments/SET_ITEM',
+                Object.assign(store.getters['assignments/item'], { attachments: filteredAttachments })
+            )
         }
     }
 }
