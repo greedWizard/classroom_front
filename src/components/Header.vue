@@ -19,7 +19,7 @@
           <i class="fa fa-tachometer" aria-hidden="true"></i> About
         </a>
       </li>
-      <template v-if="loggedIn">
+      <template v-if="accessToken">
         <li class="header">Education</li>
         <li>
           <a
@@ -43,7 +43,7 @@
       </template>
       <li class="header">Profile</li>
       <!-- TODO: проверка на логин -->
-      <template v-if="!loggedIn">
+      <template v-if="!accessToken">
         <li>
           <a
             href="#"
@@ -85,7 +85,7 @@
         <li>
           <a
             href="#"
-            @click="$router.push({ name: 'logout' })"
+            @click="logout"
           >
             <i
               class="fa fa-info-circle"
@@ -99,22 +99,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex' 
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Header',
     computed: {
-      ...mapGetters(
-        {currentTab: 'tabs/currentTab'},
-        {currentUser: 'users/currentUser'},
-      ),
+      ...mapGetters({
+        currentTab: 'tabs/currentTab',
+        currentUser: 'users/currentUser',
+        accessToken: 'users/accessToken',
+      }),
       loggedIn() {
         return Boolean(localStorage.getItem('accessToken'))
       }
     },
+    methods: {
+      async logout() {
+        this.$store.dispatch('users/logout')
+        this.$router.push({name: 'Home'})
+      }
+    },
     async mounted() {
       this.$forceUpdate()
-    }
+    },
 }
 </script>
 

@@ -16,6 +16,7 @@ import RoomPostCreate from '../views/rooms/roomposts/CreateRoomPost.vue'
 import RoomPost from '../views/rooms/roomposts/RoomPostDetail.vue'
 import UpdateRoomPost from '../views/rooms/roomposts/UpdateRoomPost.vue'
 import AssignedHomeworks from '@/views/rooms/assignments/AssignedHomeworks'
+import TestChat from '@/components/chat/TestChat.vue'
 
 
 const routes = [
@@ -23,6 +24,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/chat/test',
+    name: 'test-chat',
+    component: TestChat,
   },
   {
     path: '/rooms',

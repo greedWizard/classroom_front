@@ -9,6 +9,7 @@ export const state = {
     registrationErrors: {},
     loginError: undefined,
     errors: {},
+    acessToken: undefined,
 }
 
 export const getters = {
@@ -21,6 +22,9 @@ export const getters = {
     loginError(state) {
         return state.loginError
     },
+    accessToken(state) {
+        return state.accessToken || localStorage.getItem('accessToken')
+    }
 }
 
 export const mutations = {
@@ -36,6 +40,9 @@ export const mutations = {
     SET_LOGIN_ERROR(state, item) {
         state.loginError = item
     },
+    SET_ACCESS_TOKEN(state, token) {
+        state.accessToken = token
+    }
 }
 
 export const actions = {
@@ -57,6 +64,7 @@ export const actions = {
         try {
             var response = await client.apis.authentication.authenticateUser({}, {requestBody: requestBody })
             localStorage.setItem('accessToken', response.body.access_token)
+            commit('SET_ACCESS_TOKEN', response.body.access_token)
             commit('SET_LOGIN_ERROR', undefined)
         } catch(e) {
             commit('SET_LOGIN_ERROR', e.response.body.detail)
@@ -96,5 +104,9 @@ export const actions = {
             console.error(e)
             commit('SET_REGISTRATION_ERRORS', e.response.body.detail)
         }
+    },
+    logout({ commit }) {
+        localStorage.removeItem('accessToken')
+        commit('SET_ACCESS_TOKEN', undefined)
     }
 }
