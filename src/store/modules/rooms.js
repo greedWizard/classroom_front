@@ -45,7 +45,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.getCurrentUserRooms({}, {
+            const response = await client.apis.room.getCurrentUserRooms({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -60,7 +60,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.createRoom({}, {
+            await client.apis.room.createRoom({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -78,7 +78,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.deleteRoom({
+            await client.apis.room.deleteRoom({
                 room_id: roomId
             }, {
                 requestInterceptor: (request) => {
@@ -95,7 +95,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.getRoom({
+            const response = await client.apis.room.getRoom({
                 room_id: roomId
             }, {
                 requestInterceptor: (request) => {
@@ -112,7 +112,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.updateRoom({
+            const response = await client.apis.room.updateRoom({
                 room_id: roomId
             }, {
                 requestInterceptor: (request) => {
@@ -132,7 +132,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.joinBySlug({
+            await client.apis.room.joinBySlug({
                 join_slug: joinSlug
             }, {
                 requestInterceptor: (request) => {

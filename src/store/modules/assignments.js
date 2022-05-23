@@ -37,7 +37,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.getAssignmentsForRoomPost({
+            const response = await client.apis.assignment.getAssignmentsForRoomPost({
                 assigned_room_post_id: roomPostId
             }, {
                 requestInterceptor: request => {
@@ -56,7 +56,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.assignHomework({}, {
+            const response = await client.apis.assignment.assignHomework({}, {
                 requestInterceptor: request => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -76,7 +76,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.attachFilesToAssignment({
+            const response = await client.apis.assignment.attachFilesToAssignment({
                 assignment_id: assignmentId
             }, {
                 requestInterceptor: (request) => {
@@ -105,7 +105,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.requestAssignmentChanges({
+            const response = await client.apis.assignment.requestAssignmentChanges({
                 assignment_id: assignmentId
             }, {
                 requestInterceptor: (request) => {
@@ -123,7 +123,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.reassignHomework({
+            const response = await client.apis.assignment.reassignHomework({
                 assignment_id: assignmentId
             }, {
                 requestInterceptor: (request) => {
@@ -140,7 +140,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.rateHomework({
+            const response = await client.apis.assignment.rateHomework({
                 assignment_id: assignmentId
             }, {
                 requestInterceptor: (request) => {

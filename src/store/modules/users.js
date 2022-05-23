@@ -14,7 +14,7 @@ export const state = {
 
 export const getters = {
     currentUser(state) {
-        return state.currentUser;
+        return state.currentUser
     },
     registrationErrors(state) {
         return state.registrationErrors
@@ -50,7 +50,7 @@ export const actions = {
         const client = await apiClient
 
         try {
-            await client.apis.authentication.registerUser({}, { requestBody: requestBody })
+            await client.apis.user.registerUser({}, { requestBody: requestBody })
             commit('SET_REGISTRATION_ERRORS', {})
         } catch(e) {
             commit('SET_REGISTRATION_ERRORS', e.response.body.detail)
@@ -62,7 +62,7 @@ export const actions = {
         const client = await apiClient
 
         try {
-            var response = await client.apis.authentication.authenticateUser({}, {requestBody: requestBody })
+            var response = await client.apis.user.authenticateUser({}, {requestBody: requestBody })
             localStorage.setItem('accessToken', response.body.access_token)
             commit('SET_ACCESS_TOKEN', response.body.access_token)
             commit('SET_LOGIN_ERROR', undefined)
@@ -75,14 +75,13 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.authentication.currentUserInfo({}, {
+            const response = await client.apis.user.currentUserInfo({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 }
             })
             commit('SET_CURRENT_USER', response.body)
         } catch (e) {
-            alert('Not logged in!')
             localStorage.removeItem('accessToken')
         }
     },
@@ -91,7 +90,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.authentication.updateCurrentUser({}, {
+            const response = await client.apis.user.updateCurrentUser({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },

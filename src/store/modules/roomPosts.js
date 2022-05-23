@@ -38,7 +38,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.createRoomPost({}, {
+            const response = await client.apis.roomPost.createRoomPost({}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -54,9 +54,9 @@ export const actions = {
     async fetch({ commit }, roomId) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
-        
+
         try {
-            const response = await client.apis.classroom.getRoomPosts({room_id: roomId}, {
+            const response = await client.apis.roomPost.getRoomPosts({room_id: roomId}, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`
                 },
@@ -71,7 +71,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            await client.apis.classroom.deleteRoomPost({
+            await client.apis.roomPost.deleteRoomPost({
                 room_post_id: roomPost.id
             }, {
                 requestInterceptor: (request) => {
@@ -88,7 +88,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            await client.apis.classroom.attachFilesToRoomPost({
+            await client.apis.roomPost.attachFilesToRoomPost({
                 room_post_id: roomPostId
             }, {
                 requestInterceptor: (request) => {
@@ -105,7 +105,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
 
         try {
-            const response = await client.apis.classroom.getRoomPost({room_post_id: roomPostId},
+            const response = await client.apis.roomPost.getRoomPost({room_post_id: roomPostId},
                 {
                     requestInterceptor: (request) => {
                         request.headers.Authorization = `Bearer ${accessToken}`
@@ -123,7 +123,7 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.classroom.updateRoomPost({
+            const response = await client.apis.roomPost.updateRoomPost({
                 room_post_id: roomPostId
             }, {
                 requestInterceptor: (request) => {

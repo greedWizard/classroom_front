@@ -34,8 +34,8 @@ export const actions = {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
         
-        try {
-            const response = await client.apis.classroom.getParticipations({
+        try { 
+            const response = await client.apis.participation.getParticipations({
                 room_id: roomId,
             }, {
                 requestInterceptor: (request) => {

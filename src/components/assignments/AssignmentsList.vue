@@ -30,7 +30,6 @@
 import { mapGetters } from 'vuex'
 import AssignmentListItem from '@/components/assignments/AssignmentListItem.vue'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
-import store from '@/store'
 
 
 export default {
@@ -43,11 +42,6 @@ export default {
             assignments: 'assignments/items',
         })
     },
-    async setup() {
-        if(!store.getters['users/currentUser']){
-            await store.dispatch('users/getCurrentUser')
-        }
-    }
 }
 </script>
 

@@ -137,7 +137,6 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     methods: {
         ...mapActions({
-            getCurrentUser: 'users/getCurrentUser',
             updateUser: 'users/updateUser',
         }),
         async updateProfile(e) {

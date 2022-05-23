@@ -13,7 +13,7 @@
         <a
           href="#"
           class="list-group-item list-group-item-action flex-column align-items-start"
-          :class="{ active: room.participation.role === 'host' }"
+          :class="{ active: room.is_moderator }"
           :id="'room#' + room.id"
         >
           <div
@@ -22,7 +22,7 @@
             <h5 @click="$router.push({ name: 'room-detail', params: { id: room.id } })"
               class="mb-1">{{ room.name }} &#128101; {{ room.participations_count }}
             </h5><hr>
-            <div v-if="room.participation.role === 'host'">
+            <div v-if="room.is_moderator">
               <small>
                 <button
                   class="btn btn-success btn-sm"

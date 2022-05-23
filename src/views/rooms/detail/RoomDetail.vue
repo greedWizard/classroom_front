@@ -22,7 +22,6 @@ export default {
     async setup(){
         const route = useRoute()
         await store.dispatch('rooms/getRoom', route.params.id)
-        await store.dispatch('users/getCurrentUser')
         await store.dispatch('roomPosts/fetch', route.params.id)
         store.commit(
             'rooms/SET_CAN_MODERATE',
