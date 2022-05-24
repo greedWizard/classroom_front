@@ -28,7 +28,6 @@ export default {
     },
     methods: {
         async sendMessage() {
-            console.log(this.accessToken)
             const message = {
                 jwt_token: this.accessToken,
                 message: this.message,

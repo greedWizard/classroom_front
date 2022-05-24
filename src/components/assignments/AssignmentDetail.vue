@@ -18,8 +18,8 @@
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-            <AssignmentCreate v-if="isAuthor" />
+        <div class="modal-body" v-if="myParticipation">
+            <AssignmentCreate v-if="myParticipation.can_assign_homeworks" />
             <AssignmentTeacherInfo v-else />
         </div>
         <div class="modal-footer">
@@ -52,13 +52,8 @@ export default {
             assignment: 'assignments/item',
             currentUser: 'users/currentUser',
             roomPost: 'roomPosts/item',
+            myParticipation: 'participations/my',
         }),
-        isAuthor() {
-            if(!this.assignment.id) {
-                return true
-            }
-            return this.currentUser.id === this.assignment.author.id
-        }
     },
     methods: {
         async returnAttachmentsFromRoomPost() {

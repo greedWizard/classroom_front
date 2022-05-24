@@ -30,8 +30,10 @@ export default {
     async setup(){
         const route = useRoute()
         await store.dispatch('roomPosts/get', route.params.roomPostId)
-        await store.dispatch('users/getCurrentUser')
-        return {}
+
+        if(!store.getters['participations/my']) {
+            await store.dispatch('participations/my', route.params.roomId)
+        }
     },
 }
 </script>

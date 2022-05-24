@@ -17,19 +17,18 @@
 
             <div class="col-md-7 col-lg-5 col-xl-5 ">
                 <hr>
-
                 <div v-if="post.text" class="row d-flex align-items-center">
                     <p>{{ post.text || 'No text' }}</p>
                 </div>
                 <div v-if="post.type === 'homework'" class="row d-flex align-items-center">
-                    <div v-if="!allowEdit">
+                    <div v-if="myParticipation.can_assign_homeworks">
                         <AssignmentShowButton />
                         <div class="modal fade" id="assignmentDetailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignmentDetailModalLabel" aria-hidden="true">
                             <AssignmentDetail />
                         </div>
                     </div>
                     <button
-                        class="btn btn-outline-success btn-sm"
+                        class="btn btn-outline-success btn-sm mb-4"
                         @click="$router.push({
                             name: 'assigned-homeworks',
                             params: {
@@ -37,13 +36,13 @@
                                 roomId: $route.params.roomId,
                             } 
                         })"
-                        v-else-if="allowEdit"
+                        v-if="myParticipation.can_examine"
                     >
                         Assigned Homeworks
                     </button>
                 </div>
                 <div v-if="post.attachments.length">
-                    <p>{{ post.attachments.length }} attached files</p>
+                    <p>{{ post.attachments.length }} files attached</p>
                     <div class="form-outline mb-4">
                         <AttachmentsList
                             :allowEdit="false"
@@ -60,10 +59,12 @@
 </template>
 
 <script>
-import AttachmentsList from '@/components/roomposts/AttachmentsList'
 import store from '@/store'
+import AttachmentsList from '@/components/roomposts/AttachmentsList'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
 import AssignmentShowButton from '@/components/assignments/AssignmentDetailShowButton.vue'
+import { mapGetters } from 'vuex'
+import { useRoute } from 'vue-router'
 
 
 export default {
@@ -79,13 +80,21 @@ export default {
     },
     created() {
         store.commit('attachments/SET_ITEMS', this.post.attachments)
-        store.commit('assignments/SET_ITEM', this.post.assignment)
     },
     computed: {
         allowEdit() {
             return this.user.id === this.post.author.id
         },
+        ...mapGetters({
+            myParticipation: 'participations/my',
+        })
     },
+    async setup() {
+        const route = useRoute()
+        if(store.getters['participations/my'].can_assign_homeworks) {
+            store.dispatch('assignments/myInPost', route.params.roomPostId)
+        }
+    }
 }
 </script>
 

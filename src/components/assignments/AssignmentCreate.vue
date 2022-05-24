@@ -1,27 +1,23 @@
 <template>
   <div>
     <div class="col-md-7 col-lg-5 col-xl-9">
-        <template v-if="isAuthor">
+        <template v-if="myParticipation.can_assign_homeworks">
             <h3 v-if="!assignment.id">Turn in your homework</h3>
-            <h3 v-else-if="assignment.status === 'assigned'">Your homework is assigned</h3>
-            <h3 v-else-if="assignment.status === 'request changes'">Assigned homework needs some changes, read the remark</h3>
-            <h3 v-else-if="assignment.status === 'done'">Your homework is done</h3>
+            <h3 v-else-if="assignment.status_assigned">Your homework is assigned</h3>
+            <h3 v-else-if="assignment.request_changes">Assigned homework needs some changes, read the remark</h3>
+            <h3 v-else-if="assignment.status_done">Your homework is done</h3>
         </template>
-
         <span
             v-if="assignment.comment"
-            class="link-secondary"
-        >
-            Teacher's remark: {{ assignment.comment }}
-        </span>
+            class="link-danger mb-4"
+        >Teacher's remark: "{{ assignment.comment }}"</span>
 
-        <div class="mb-4">
+        <div class="mb-4 mt-2">
             <div v-if="!isBlocked">
-                <h3 class="mb-4">Attach files with your homework</h3>
+                <p class="mb-4">Attach files with your homework</p>
                 <AttachmentControl :multiple="true" v-show="!isBlocked"/>
             </div>
             <div v-else>
-                <h3>Homework is done.</h3>
                 <span>You got {{ assignment.rate }} / 5</span>
             </div>
         </div>
@@ -57,6 +53,7 @@ export default {
         ...mapGetters({
             assignment: 'assignments/item',
             attachments: 'attachments/items',
+            myParticipation: 'participations/my',
         }),
         isBlocked() {
             return this.assignment.status === 'done'

@@ -62,9 +62,6 @@ export const actions = {
                 },
                 requestBody: requestBody,
             })
-            alert(response.body)
-            console.log(response.body)
-
             commit('SET_ITEM', response.body)
         } catch (e) {
             console.error(e)
@@ -153,4 +150,21 @@ export const actions = {
             console.error(e)
         }
     },
+    async myInPost({ commit }, postId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.assignment.myInPost({
+                room_post_id: postId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_ITEM', response.body)
+        } catch (e) {
+            console.error(e)
+        }
+    }
 }

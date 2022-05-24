@@ -1,6 +1,6 @@
 <template>
   <RouterView name="default" v-slot="{ Component, route }">
-      <transition :name="route.meta.transition" mode="out-in" :duration="1" :key="route.path">
+      <transition :name="route.meta.transition" mode="out-in" :duration="0.5" :key="route.path">
         <Suspense >
           <template #default>
             <component :is="Component" :key="route.path"/>
@@ -23,9 +23,12 @@ export default {
     async beforeMount() {
       store.dispatch('tabs/setTab', 'rooms')
       if(!store.getters['users/currentUser']){
-            await store.dispatch('users/getCurrentUser')
-        }
-    },
+          await store.dispatch('users/getCurrentUser')
+      }
+      const roomId = this.$route.params.id || this.$route.params.roomId
+
+      await store.dispatch('participations/my', roomId)
+    }
 }
 </script>
 

@@ -2,31 +2,32 @@
 <div>
     <div class="container">
         <div class="mb-4">
-            <h3 v-if="assignment.status === 'assigned'">
+            <h3 v-if="assignment.status_assigned">
                 <template v-if="assignment.id">
                     {{ assignment.author.first_name }} {{ assignment.author.middle_name }} {{ assignment.author.last_name }}
                 </template>
                 has assigned the homework
             </h3>
-            <h3 v-if="assignment.status === 'changes requested'">
+            <h3 v-if="assignment.status_request_changes">
                 <template v-if="assignment.id">
-                    {{ assignment.author.first_name }} {{ assignment.author.middle_name }} {{ assignment.author.last_name }}
+                    {{ assignment.author.first_name }} {{ assignment.author.middle_name }}
+                    {{ assignment.author.last_name }}'s homework needs changes
                 </template>
-                is still making changes in their homework
+                
             </h3>
-            <h3 v-if="assignment.status === 'done'">
+            <h3 v-if="assignment.status_done">
                 <template v-if="assignment.id">
                     {{ assignment.author.first_name }} {{ assignment.author.middle_name }} {{ assignment.author.last_name }}
                 </template>
                 has done their homework and got {{ assignment.rate }} / 5
             </h3>
-            <span v-if="assignment.status === 'assigned'">
+            <span v-if="assignment.status_assigned">
                 Checkout the files with homework and rate or reject the work
             </span>
-            <span v-else-if="assignment.status === 'changes requested'">
+            <span v-else-if="assignment.status_request_changes">
                 Changes have been requested
             </span>
-            <span v-else-if="assignment.status === 'done'">
+            <span v-else-if="assignment.status_done">
                 The homework has been rated with {{ assignment.rate }}
             </span> <br>
             <span
@@ -39,7 +40,7 @@
             <AttachmentsList :allowEdit="false" />
         </div>
         <div>
-            <div class="row mb-4" v-if="assignment.status === 'assigned'">
+            <div class="row mb-4" v-if="assignment.status_assigned">
                 <div class="col">
                     <input
                         type="text"
@@ -58,7 +59,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row" v-if="assignment.status !== 'done'">
+            <div class="row" v-if="!assignment.status_done">
                 <div class="col">
                     <input
                         type="number"

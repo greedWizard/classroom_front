@@ -6,6 +6,7 @@ export const state = {
     item: null,
     items: [],
     errors: {},
+    my: undefined,
 }
 
 export const getters = {
@@ -14,6 +15,9 @@ export const getters = {
     },
     items(state) {
         return state.items
+    },
+    my(state) {
+        return state.my
     },
 }
 
@@ -26,6 +30,9 @@ export const mutations = {
     },
     SET_ERRORS(state, items) {
         state.errors = items
+    },
+    SET_MY(state, item) {
+        state.my = item
     }
 }
 
@@ -43,6 +50,26 @@ export const actions = {
                 },
             })
             commit('SET_ITEMS', response.body)
+            commit('SET_ERRORS', {})
+        } catch (e) {
+            console.error(e)
+            commit('SET_ERRORS', e.response.body.detail)
+
+        }
+    },
+    async my({ commit }, roomId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try { 
+            const response = await client.apis.participation.my({
+                room_id: roomId,
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_MY', response.body)
             commit('SET_ERRORS', {})
         } catch (e) {
             console.error(e)

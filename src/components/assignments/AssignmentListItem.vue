@@ -54,7 +54,6 @@ export default {
         async setAssignment() {
             store.commit('assignments/SET_ITEM', this.assignment)
             store.commit('attachments/SET_ITEMS', this.assignment.attachments || [])
-            console.log(this.assignment.attachments)
         }
     }
 }
