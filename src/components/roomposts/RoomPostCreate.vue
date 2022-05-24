@@ -59,7 +59,7 @@
                             placeholder="Text"
                         ></textarea>
                     </div>
-                    <AttachmentControl :multiple="false"/>
+                    <AttachmentControl :multiple="true"/>
                     <div class="mb-3">
                         <AttachmentsList
                             :allowEdit="true"

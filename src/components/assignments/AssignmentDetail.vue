@@ -1,7 +1,7 @@
 <template>
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" v-if="assignment">
             <h5 class="modal-title" id="assignmentDetailModalLabel">
                 {{ roomPost.title }}
                 <span
@@ -59,9 +59,6 @@ export default {
         async returnAttachmentsFromRoomPost() {
             store.commit('attachments/SET_ITEMS', this.roomPost.attachments)
         },
-    },
-    async created() {
-        store.commit('assignments/SET_ITEM', this.roomPost.assignment || {})
     },
 }
 </script>

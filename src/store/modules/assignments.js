@@ -51,7 +51,7 @@ export const actions = {
             commit('SET_ERRORS', e)
         }
     },
-    async create({ commit }, requestBody) {
+    async create(context, requestBody) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
 
@@ -62,10 +62,10 @@ export const actions = {
                 },
                 requestBody: requestBody,
             })
-            commit('SET_ITEM', response.body)
+            context.commit('SET_ITEM', response.body)
         } catch (e) {
             console.error(e)
-            commit('SET_ERRORS', e)
+            context.commit('SET_ERRORS', e)
         }
     },
     async attachFiles(context, { assignmentId, requestBody }) {

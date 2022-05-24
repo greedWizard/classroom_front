@@ -26,8 +26,9 @@ export default {
           await store.dispatch('users/getCurrentUser')
       }
       const roomId = this.$route.params.id || this.$route.params.roomId
-
-      await store.dispatch('participations/my', roomId)
+      
+      if(roomId)
+        await store.dispatch('participations/my', roomId)
     }
 }
 </script>

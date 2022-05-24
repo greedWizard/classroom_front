@@ -1,9 +1,16 @@
-FROM node:lts-alpine
+FROM node:16.13.2-alpine3.14 as build-stage
 
 WORKDIR /app
-
-ADD . .
-
 COPY package*.json ./
+RUN npm install
+COPY . .
 
-ADD src/ .
+RUN npm run build
+
+# production stage
+FROM nginx as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80

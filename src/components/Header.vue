@@ -30,7 +30,7 @@
             <i class="fa fa-users" aria-hidden="true"></i> Rooms
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="#">
             <i class="fa fa-cog" aria-hidden="true"></i> Homeworks
           </a>
@@ -39,7 +39,7 @@
           <a href="#">
             <i class="fa fa-info-circle" aria-hidden="true"></i> Statistic
           </a>
-        </li>
+        </li> -->
       </template>
       <li class="header">Profile</li>
       <!-- TODO: проверка на логин -->

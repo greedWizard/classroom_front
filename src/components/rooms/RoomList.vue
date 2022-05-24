@@ -19,7 +19,7 @@
           <div
             class="d-flex w-100 justify-content-between"
           >
-            <h5 @click="$router.push({ name: 'room-detail', params: { id: room.id } })"
+            <h5 @click="goToRoom(room.id)"
               class="mb-1">{{ room.name }} &#128101; {{ room.participations_count }}
             </h5><hr>
             <div v-if="room.is_moderator">
@@ -41,11 +41,13 @@
               </small>
             </div>
           </div>
-          <div>
-            Created: {{ room.author.first_name }}  {{ room.author.last_name }}
-          </div> <hr>
-          <p class="mb-1">{{ room.description }}</p>
-          <small>{{ room.created_at }} </small>
+          <div @click="goToRoom(room.id)">
+            <div>
+              Created: {{ room.author.first_name }}  {{ room.author.last_name }}
+            </div> <hr>
+            <p class="mb-1">{{ room.description }}</p>
+            <small>{{ room.created_at }} </small>
+          </div>
         </a>
         <hr>
       </div>
@@ -74,6 +76,9 @@ export default {
     ...mapActions({
       deleteRoom: 'rooms/deleteRoom',
     }),
+    async goToRoom(roomId) {
+      this.$router.push({ name: 'room-detail', params: { id: roomId } })
+    }
   },
 }
 </script>

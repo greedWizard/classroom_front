@@ -24,7 +24,7 @@ export default {
         async setAssignmentAttachments() {
             var attachments = []
 
-            if(this.assignment.id) {
+            if(this.assignment) {
                 attachments = this.assignment.attachments
             }
 
