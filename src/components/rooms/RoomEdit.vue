@@ -19,14 +19,14 @@
                 <div class="form-outline mb-4">
                     {{ errors.name }}
                     <input
-                        v-model="name"
+                        v-model="room.name"
                         type="text" id="name"
                         class="form-control form-control-lg"
                         placeholder="Name"
                     />
                     <hr>
                     <input
-                        v-model="description"
+                        v-model="room.description"
                         type="text" id="description"
                         class="form-control form-control-lg"
                         placeholder="Description"
@@ -49,18 +49,10 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-    props: {
-        room: Object,
-    },
-    data() {
-        return {
-            name: this.room.name,
-            description: this.room.description,
-        }
-    },
     computed: {
         ...mapGetters({
             errors: 'rooms/errors',
+            room: 'rooms/item',
         })
     },
     methods: {
@@ -69,8 +61,8 @@ export default {
         }),
         async updateRoomById(roomId) {
             const requestBody = {
-                name: this.name,
-                description: this.description,
+                name: this.room.name,
+                description: this.room.description,
             }
             await this.updateRoom({roomId: roomId, requestBody: requestBody})
 

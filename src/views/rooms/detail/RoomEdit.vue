@@ -3,10 +3,8 @@
       <h2>Edit room</h2> <button
         class="btn btn-outline-secondary btn-sm mb-4"
         @click="$router.push({name: 'room-list'})"
-    >Return to list</button>
-      <RoomEdit
-        :room="room"
-      />
+    >Return to list</button> 
+      <RoomEdit />
   </div>
 </template>
 
@@ -18,11 +16,11 @@ import { mapGetters } from 'vuex'
 
 export default {
     components: {
-        RoomEdit
+        RoomEdit,
     },
     computed: {
         ...mapGetters({
-            room: 'rooms/item',
+            room:'rooms/item'
         })
     },
     async setup() {
