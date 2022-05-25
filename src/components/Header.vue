@@ -14,11 +14,11 @@
           <i class="fa fa-home" aria-hidden="true"></i> Homepage
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a href="#">
           <i class="fa fa-tachometer" aria-hidden="true"></i> About
         </a>
-      </li>
+      </li> -->
       <template v-if="accessToken">
         <li class="header">Education</li>
         <li>

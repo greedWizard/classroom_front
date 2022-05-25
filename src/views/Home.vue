@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Welcome to ClassRoomMates!</h1>
+    <h1>Welcome to ClassSpace!</h1>
     <hr>
     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
       Ut tempore eius asperiores voluptatum est? Consequuntur veniam pariatur 
