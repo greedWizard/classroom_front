@@ -1,2 +1,1 @@
-// API_URL = 'lateron_back'
-export const API_URL = 'http://localhost:8000'
+export const API_URL = process.env.VUE_APP_API_URL
