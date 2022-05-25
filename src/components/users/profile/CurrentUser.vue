@@ -14,7 +14,7 @@
 
                 <div class="form-outline mb-4">
                     <input
-                        v-model="phone_number"
+                        v-model="currentUser.phone_number"
                         type="tel" id="phone_number"
                         class="form-control form-control-lg"
                         pattern="\+7[0-9]{10}"
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="form-outline mb-4">
-                    <input v-model="email" type="email" id="email" class="form-control form-control-lg" />
+                    <input v-model="currentUser.email" type="email" id="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">*Email address 
                         <span class="regError">
                             {{ updateErrors.email }}
@@ -40,7 +40,7 @@
 
                 <div class="form-outline mb-4">
                     <input
-                        v-model="first_name"
+                        v-model="currentUser.first_name"
                         type="text" id="first_name"
                         class="form-control form-control-lg"
                     />
@@ -53,7 +53,7 @@
 
                 <div class="form-outline mb-4">
                     <input
-                        v-model="last_name"
+                        v-model="currentUser.last_name"
                         type="text" id="last_name"
                         class="form-control form-control-lg"
                     />
@@ -66,7 +66,7 @@
 
                 <div class="form-outline mb-4">
                     <input
-                        v-model="middleName"
+                        v-model="currentUser.middle_name"
                         id="middle_name"
                         class="form-control form-control-lg"
                     />
@@ -81,7 +81,7 @@
                 <hr>
 
                 <div class="form-outline mb-4">
-                    <input v-model="password" type="password" id="password" class="form-control form-control-lg" />
+                    <input v-model="currentUser.password" type="password" id="password" class="form-control form-control-lg" />
                     <label class="form-label" for="password">*Password 
                         <span class="regError">
                             {{ updateErrors.password }}
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="form-outline mb-4">
-                    <input v-model="repeat_password" type="password" id="password" class="form-control form-control-lg" />
+                    <input v-model="currentUser.repeat_password" type="password" id="repeat_password" class="form-control form-control-lg" />
                     <label class="form-label" for="repeat_password">*Repeat Password
                         <span class="regError">
                             {{ updateErrors.password }}
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="form-outline mb-4">
-                    <input v-model="confirm_password" type="password" id="confirm_password" class="form-control form-control-lg" />
+                    <input v-model="currentUser.confirm_password" type="password" id="confirm_password" class="form-control form-control-lg" />
                     <label class="form-label" for="confirm_password">*Confirm Password 
                         <span class="regError">
                             {{ updateErrors.confirm_password }}
@@ -142,12 +142,14 @@ export default {
         async updateProfile(e) {
             e.preventDefault()
             const requestBody = {
-                first_name: this.first_name,
-                last_name: this.last_name,
-                middleName: this.middleName,
-                phone_number: this.phone_number,
-                email: this.email,
-                confirm_password: this.confirm_password,
+                first_name: this.currentUser.first_name,
+                last_name: this.currentUser.last_name,
+                middle_name: this.currentUser.middle_name,
+                phone_number: this.currentUser.phone_number,
+                email: this.currentUser.email,
+                password: this.currentUser.password,
+                repeat_password: this.currentUser.repeat_password,
+                confirm_password: this.currentUser.confirm_password,
             }
             await this.updateUser(requestBody)
         }
@@ -157,25 +159,6 @@ export default {
             currentUser: 'users/currentUser',
             updateErrors: 'users/registrationErrors',
         })
-    },
-    data() {
-        return {
-            first_name: '',
-            last_name: '',
-            middleName: '',
-            confirm_password: '',
-            phone_number: '',
-            email: '',
-            password: '',
-            repeat_password: '',
-        }
-    },
-    beforeMount() {
-        this.first_name = this.currentUser.first_name;
-        this.last_name = this.currentUser.last_name
-        this.middleName = this.currentUser.middleName
-        this.phone_number = this.currentUser.phone_number
-        this.email = this.currentUser.email
     },
 }
 </script>

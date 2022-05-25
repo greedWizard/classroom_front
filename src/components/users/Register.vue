@@ -66,7 +66,7 @@
 
             <div class="form-outline mb-4">
                 <input
-                    v-model="middleName"
+                    v-model="middle_name"
                     id="middle_name"
                     class="form-control form-control-lg"
                 />
@@ -136,7 +136,7 @@ export default {
         return {
             first_name: '',
             last_name: '',
-            middleName: '',
+            middle_name: '',
             accept_eula: false,
             phone_number: '',
             email: '',
