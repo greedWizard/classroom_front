@@ -24,6 +24,9 @@ export const getters = {
     },
     accessToken(state) {
         return state.accessToken || localStorage.getItem('accessToken')
+    },
+    isAuthenticated(state) {
+        return Boolean(state.currentUser || localStorage.getItem('accessToken'))
     }
 }
 

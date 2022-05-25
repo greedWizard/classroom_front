@@ -116,6 +116,7 @@ export default {
     methods: {
       async logout() {
         this.$store.dispatch('users/logout')
+        alert('home')
         this.$router.push({name: 'Home'})
       }
     },
