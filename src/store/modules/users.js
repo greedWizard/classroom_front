@@ -110,5 +110,6 @@ export const actions = {
     logout({ commit }) {
         localStorage.removeItem('accessToken')
         commit('SET_ACCESS_TOKEN', undefined)
+        commit('SET_CURRENT_USER', undefined)
     }
 }

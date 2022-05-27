@@ -22,6 +22,11 @@ export default {
     },
     methods: {
         async setAssignmentAttachments() {
+            await store.dispatch(
+                'assignments/myInPost',
+                store.getters['roomPosts/item'].id
+            )
+
             var attachments = []
 
             if(this.assignment) {

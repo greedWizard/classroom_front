@@ -27,7 +27,7 @@
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-                @click="returnAttachmentsFromRoomPost"
+                @click="refreshState"
             >
                 Close
             </button>
@@ -41,6 +41,7 @@ import { mapGetters } from 'vuex'
 import AssignmentCreate from '@/components/assignments/AssignmentCreate'
 import AssignmentTeacherInfo from '@/components/assignments/AssignmentTeacherInfo.vue'
 import store from '@/store'
+
 
 export default {
     components: {
@@ -56,8 +57,12 @@ export default {
         }),
     },
     methods: {
-        async returnAttachmentsFromRoomPost() {
+        async refreshState() {
             store.commit('attachments/SET_ITEMS', this.roomPost.attachments)
+
+            if(store.getters['assignments/items'].length) {
+                await store.dispatch('assignments/fetchForTeacher', store.getters['roomPosts/item'].id)
+            }
         },
     },
 }

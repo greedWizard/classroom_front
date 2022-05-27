@@ -90,7 +90,12 @@
                 </div>
 
                 <div class="form-outline mb-4">
-                    <input v-model="currentUser.repeat_password" type="password" id="repeat_password" class="form-control form-control-lg" />
+                    <input
+                        v-model="currentUser.repeat_password"
+                        type="password" id="repeat_password"
+                        class="form-control form-control-lg"
+                        :disabled="!currentUser.password"
+                    />
                     <label class="form-label" for="repeat_password">*Repeat Password
                         <span class="regError">
                             {{ updateErrors.password }}
@@ -121,6 +126,7 @@
                     type="submit"
                     class="btn btn-primary btn-lg btn-block ml-4 mb-4"
                     @click="updateProfile"
+                    :disabled="disableAccept"
                 >Accept</button>
                 </form>
             </div>
@@ -141,16 +147,25 @@ export default {
         }),
         async updateProfile(e) {
             e.preventDefault()
-            const requestBody = {
+
+            var requestBody = {}
+
+            if(this.currentUser.password && this.currentUser.password) {
+                Object.assign(requestBody, {
+                    password: this.currentUser.password,
+                    repeat_password: this.currentUser.repeat_password,
+                })
+                console.log(requestBody)
+            }
+
+            Object.assign(requestBody, {
                 first_name: this.currentUser.first_name,
                 last_name: this.currentUser.last_name,
                 middle_name: this.currentUser.middle_name,
                 phone_number: this.currentUser.phone_number,
                 email: this.currentUser.email,
-                password: this.currentUser.password,
-                repeat_password: this.currentUser.repeat_password,
                 confirm_password: this.currentUser.confirm_password,
-            }
+            })
             await this.updateUser(requestBody)
         }
     },
@@ -158,7 +173,12 @@ export default {
         ...mapGetters({
             currentUser: 'users/currentUser',
             updateErrors: 'users/registrationErrors',
-        })
+        }),
+        disableAccept() {
+            return !this.currentUser.confirm_password || (
+                !this.currentUser.repeat_password && this.currentUser.password
+            )
+        },
     },
 }
 </script>

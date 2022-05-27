@@ -75,7 +75,7 @@ export default {
             }
 
             if(this.assignment && attachmentsToUpload.length) {
-                alert('Create success')
+                alert('Homework assigned')
 
                 await store.dispatch(
                     'assignments/attachFiles',

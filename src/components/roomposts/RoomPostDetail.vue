@@ -64,7 +64,6 @@ import AttachmentsList from '@/components/roomposts/AttachmentsList'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
 import AssignmentShowButton from '@/components/assignments/AssignmentDetailShowButton.vue'
 import { mapGetters } from 'vuex'
-import { useRoute } from 'vue-router'
 
 
 export default {
@@ -89,12 +88,6 @@ export default {
             myParticipation: 'participations/my',
         })
     },
-    async setup() {
-        const route = useRoute()
-        if(store.getters['participations/my'].can_assign_homeworks) {
-            store.dispatch('assignments/myInPost', route.params.roomPostId)
-        }
-    }
 }
 </script>
 

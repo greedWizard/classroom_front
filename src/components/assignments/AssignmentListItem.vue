@@ -43,17 +43,18 @@
 <script>
 import store from '@/store'
 
-
 export default {
     components: {
     },
     props: {
+        // TODO: Переименовать в assignmentRow
         assignment: Object,
     },
     methods: {
         async setAssignment() {
-            store.commit('assignments/SET_ITEM', this.assignment)
-            store.commit('attachments/SET_ITEMS', this.assignment.attachments || [])
+            // store.commit('assignments/SET_ITEM', this.assignment)
+            await store.dispatch('assignments/get', this.assignment.id)
+            store.commit('attachments/SET_ITEMS', store.getters['assignments/item'].attachments || [])
         }
     }
 }

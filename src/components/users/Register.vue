@@ -163,7 +163,7 @@ export default {
             await this.registerUser(requestBody)
 
             if(Object.keys(this.errors).length == 0) {
-                alert('Registration Success!')
+                alert('Registration Success! Check out your email to activate profile!')
                 this.$router.push({ name: 'login' })
             }
         }

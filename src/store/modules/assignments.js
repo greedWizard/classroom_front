@@ -166,5 +166,22 @@ export const actions = {
         } catch (e) {
             console.error(e)
         }
+    },
+    async get({ commit }, assignmentId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+
+        try {
+            const response = await client.apis.assignment.get({
+                assignment_id: assignmentId
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_ITEM', response.body)
+        } catch (e) {
+            console.error(e)
+        }
     }
 }
