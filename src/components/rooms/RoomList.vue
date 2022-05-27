@@ -7,7 +7,7 @@
     />
     <div class="list-group">
       <div
-        v-for="room in rooms"
+        v-for="room in filteredRooms"
         :key="room.id"
       >
         <a
@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      filteredRooms: this.rooms,
+      filteredRooms: store.getters['rooms/items'],
     }
   },
   computed: {
