@@ -7,7 +7,7 @@
     />
     <div class="list-group">
       <div
-        v-for="room in filteredRooms"
+        v-for="room in rooms"
         :key="room.id"
       >
         <a
@@ -34,7 +34,7 @@
               <small>
                 <button
                   class="btn btn-danger btn-sm mr-4"
-                  @click="deleteRoom(room.id)"
+                  @click="removeRoom(room.id)"
                 >
                   Dissolve
                 </button>
@@ -56,28 +56,37 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import SearchByField from '@/components/SearchByField.vue'
+import store from '@/store'
 
 
 export default {
   components: {
     SearchByField,
   },
-  props: {
-    rooms: Array,
-  },
   data() {
     return {
       filteredRooms: this.rooms,
     }
   },
+  computed: {
+    ...mapGetters({
+      rooms: 'rooms/items',
+    }) 
+  },
   methods: {
     ...mapActions({
       deleteRoom: 'rooms/deleteRoom',
+      rooms: 'rooms/items',
     }),
     async goToRoom(roomId) {
       this.$router.push({ name: 'room-detail', params: { id: roomId } })
+    },
+    async removeRoom(roomId) {
+      alert('Room deleted')
+      await this.deleteRoom(roomId)
+      store.commit('rooms/SET_ITEMS', this.rooms.filter(e => e.id !== roomId))
     }
   },
 }

@@ -9,9 +9,7 @@
             </a>
         </h2>
         <hr>
-        <RoomList
-            :rooms="rooms" 
-        />
+        <RoomList />
     </div>
 </template>
 
