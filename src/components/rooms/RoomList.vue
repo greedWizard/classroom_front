@@ -87,6 +87,7 @@ export default {
       alert('Room deleted')
       await this.deleteRoom(roomId)
       store.commit('rooms/SET_ITEMS', this.rooms.filter(e => e.id !== roomId))
+      this.filteredRooms = this.filteredRooms.filter(e => e.id !== roomId)
     }
   },
 }
