@@ -14,32 +14,22 @@
           <i class="fa fa-home" aria-hidden="true"></i> Homepage
         </a>
       </li>
-      <!-- <li>
-        <a href="#">
-          <i class="fa fa-tachometer" aria-hidden="true"></i> About
-        </a>
-      </li> -->
       <template v-if="accessToken">
         <li class="header">Education</li>
         <li>
           <a
-          href="#"
-          @click="$router.push({name: 'room-list'})"
-          :class="{ current: currentTab === 'rooms' }"
-        >
+            href="#"
+            @click="$router.push({name: 'room-list'})"
+            :class="{ current: currentTab === 'rooms' }"
+          >
             <i class="fa fa-users" aria-hidden="true"></i> Rooms
-          </a>
-        </li>
-        <!-- <li>
-          <a href="#">
-            <i class="fa fa-cog" aria-hidden="true"></i> Homeworks
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="fa fa-info-circle" aria-hidden="true"></i> Statistic
+            <i class="fa fa-cog" aria-hidden="true"></i> Dialogs
           </a>
-        </li> -->
+        </li>
       </template>
       <li class="header">Profile</li>
       <!-- TODO: проверка на логин -->
