@@ -1,17 +1,17 @@
 <template>
   <div>
-      <TestChat />
+      <ChatBox />
   </div>
 </template>
 
 <script>
-import TestChat from '@/components/chat/TestChat.vue'
+import ChatBox from '@/components/chat/ChatBox.vue'
 import store  from '@/store'
 
 
 export default {
     components: {
-        TestChat,
+        ChatBox,
     },
     async setup() {
         store.dispatch('tabs/setTab', 'dialogs')
