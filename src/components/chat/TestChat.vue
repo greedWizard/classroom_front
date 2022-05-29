@@ -1,29 +1,61 @@
 <template>
-  <div>
-      <h2>
-          Welcome to chat
-      </h2>
-      {{ messages }} <br>
-      <input type="text" v-model="message">
-      <button class="btn btn-success" @click="sendMessage">Send message</button>
-  </div>
+<div class="header">
+    <h2>Dialog</h2>
+    <button
+        class="btn btn-outline-secondary btn-sm"
+        @click="$router.go(-1)"
+    >Back</button>
+    <hr>
+</div>
+<div class="container">
+    <div class="list-group border border-secondary overflow-auto" style="max-height: 20rem;">
+        <span 
+            class="list-group-item mb-2"
+            aria-current="true"
+            v-for="message in messages"
+            :key="message.id"
+        >
+            <div
+                class="d-flex w-100 justify-content-between mb-2"
+                :class="{
+                    'bg-secondary text-white': currentUser.id !== message.sender.id,
+                    'bg-info text-dark': currentUser.id === message.sender.id,
+                }"
+            >
+                <h5 class="mb-1">{{ message.sender.full_name }}</h5>
+                <small>{{ moment(message.created_at).fromNow() }}</small>
+            </div>
+            <p class="mb-1">{{ message.text }}</p>
+        </span>
+    </div>
+    <hr>
+    <div class="d-flex w-100 justify-content-between">
+        <input type="text" v-model="message" class="form-control">
+        <button class="btn btn-sm btn-outline-success">Send</button>
+    </div>
+</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import store from '@/store'
+import moment from 'moment'
+
+
 export default {
     data() {
+        const recieverId = this.$route.query.senderId
+        const wsConnectionString = `ws://localhost:8000/api/v1/chat/?jwt_token=${store.getters['users/accessToken']}&reciever_id=${recieverId}`
         return {
-            webSocket: new WebSocket(
-                `ws://localhost:8000/api/v1/chat/?jwt_token=${this.accessToken}`
-            ),
+            webSocket: new WebSocket(wsConnectionString),
             message: '',
             messages: [],
+            moment: moment,
         }
     },
     computed: {
         ...mapGetters({
-            accessToken: 'users/accessToken'
+            currentUser: 'users/currentUser',
         }),
     },
     methods: {
@@ -33,14 +65,15 @@ export default {
                 message: this.message,
             }
             this.webSocket.send(JSON.stringify(message))
+            this.message = ''
         },
     },
     async created() {
         this.webSocket.onmessage = (event) => {
             const jsonData = JSON.parse(event.data)
-            this.messages.push(jsonData)
+            this.messages = jsonData
         }
-    }
+    },
 }
 </script>
 

@@ -19,14 +19,24 @@
                     <div class="fw-bold">
                         {{ participation.user.first_name }} {{ participation.user.last_name }}
                     </div>
-                    <p>Joined at: {{ participation.created_at }}</p>
+                    <p>Joined at: {{ participation.created_at }} <template v-if="participation.role === 'teacher'">{{ participation.user.email }}</template></p>
                 </div>
-                <span
-                    v-if="participation.role == 'teacher'"
+                <template v-if="participation.role == 'teacher'">
+                  <span
                     class="badge bg-primary rounded-pill"
-                >
-                    {{ participation.role }}
-                </span>
+                  >
+                      {{ participation.role }}
+                  </span>
+                  <button
+                      v-if="currentUser.id !== participation.user.id"
+                      class="btn rounded-pill mr-4 btn-sm"
+                      style="cursor: pointer;"
+                      @click="redirectToDialog(participation.user.id)"
+                      data-bs-dismiss="modal"
+                  >
+                      ✏️
+                  </button>
+                </template>
             </li>
         </ol>
       </div>
@@ -39,9 +49,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: {
         participations: Array
+    },
+    computed: {
+      ...mapGetters({
+        currentUser: 'users/currentUser',
+        myParticipation: 'participations/my',
+      })
+    },
+    methods: {
+      redirectToDialog(recieverId){
+        this.$router.push({
+          name: 'chat-dialog',
+          query: {
+            senderId: this.currentUser.id,
+            recieverId: recieverId,
+          }
+        })
+      }
     }
 }
 </script>

@@ -16,7 +16,8 @@ import RoomPostCreate from '../views/rooms/roomposts/CreateRoomPost.vue'
 import RoomPost from '../views/rooms/roomposts/RoomPostDetail.vue'
 import UpdateRoomPost from '../views/rooms/roomposts/UpdateRoomPost.vue'
 import AssignedHomeworks from '@/views/rooms/assignments/AssignedHomeworks'
-import TestChat from '@/components/chat/TestChat.vue'
+import Chat from '@/views/chat/Chat.vue'
+import ChatIndex from '@/views/chat/ChatIndex.vue'
 
 import store from '@/store'
 
@@ -29,10 +30,16 @@ const routes = [
     meta: { loginRequired: false },
   },
   {
-    path: '/chat/test',
-    name: 'test-chat',
-    component: TestChat,
-    meta: { loginRequired: true },
+    path: '/chat',
+    component: ChatIndex,
+    children: [
+      {
+        path: 'dialog',
+        name: 'chat-dialog',
+        component: Chat,
+        meta: { loginRequired: true },
+      },
+    ]
   },
   {
     path: '/rooms',
