@@ -16,16 +16,8 @@
 </template>
 
 <script>
-import store  from '@/store'
-
-
 export default {
-    async beforeMount() {
-      store.dispatch('tabs/setTab', 'rooms')
-      if(!store.getters['users/currentUser']){
-          await store.dispatch('users/getCurrentUser')
-      }
-    }
+
 }
 </script>
 

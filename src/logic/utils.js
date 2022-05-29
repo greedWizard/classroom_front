@@ -1,17 +1,3 @@
-
-
-// export const downloadFromBlob = async (blob, filename) => {
-//     var a = document.createElement("a")
-//     document.body.appendChild(a)
-//     a.style = "display: none"
-
-//     const url = window.URL.createObjectURL(blob)
-//     a.href = url
-//     a.download = filename
-//     a.click()
-//     window.URL.revokeObjectURL(url)
-// }
-
 export const downloadFromBlob = async (blob, name = 'file.txt') => {
     // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
     const blobUrl = URL.createObjectURL(blob);

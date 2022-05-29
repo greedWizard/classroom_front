@@ -22,17 +22,19 @@
             @click="$router.push({name: 'room-list'})"
             :class="{ current: currentTab === 'rooms' }"
           >
-            <i class="fa fa-users" aria-hidden="true"></i> Rooms
+            <i
+              class="fa fa-users"
+              aria-hidden="true"
+            ></i> Rooms
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="#" :class="{ current: currentTab === 'rooms' }">
             <i class="fa fa-cog" aria-hidden="true"></i> Dialogs
           </a>
         </li>
       </template>
       <li class="header">Profile</li>
-      <!-- TODO: проверка на логин -->
       <template v-if="!accessToken">
         <li>
           <a
