@@ -1,10 +1,5 @@
 <template>
 <div class="header">
-    <h2>Dialog</h2>
-    <button
-        class="btn btn-outline-secondary btn-sm"
-        @click="$router.go(-1)"
-    >Back</button>
     <hr>
 </div>
 <div class="container">
@@ -44,8 +39,9 @@ import { WS_URL } from '@/logic/config'
 
 export default {
     data() {
-        const recieverId = this.$route.query.senderId
-        const wsConnectionString = `${WS_URL}/api/v1/chat/?jwt_token=${store.getters['users/accessToken']}&reciever_id=${recieverId}`
+        const recieverId = this.$route.query.recieverId
+        const senderId = this.$route.query.senderId
+        const wsConnectionString = `${WS_URL}/api/v1/chat/?jwt_token=${store.getters['users/accessToken']}&reciever_id=${recieverId}&sender_id=${senderId}`
         return {
             webSocket: new WebSocket(wsConnectionString),
             message: '',

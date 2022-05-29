@@ -29,7 +29,9 @@
           </a>
         </li>
         <li>
-          <a href="#" :class="{ current: currentTab === 'rooms' }">
+          <a href="#" :class="{ current: currentTab === 'dialogs' }" @click="$router.push({
+            name: 'my-dialogs'
+          })">
             <i class="fa fa-cog" aria-hidden="true"></i> Dialogs
           </a>
         </li>

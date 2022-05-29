@@ -6,6 +6,8 @@ import * as roomPosts from '@/store/modules/roomPosts.js'
 import * as participations from '@/store/modules/participations.js'
 import * as attachments from '@/store/modules/attachments.js'
 import * as assignments from '@/store/modules/assignments.js'
+import * as chat from '@/store/modules/chat.js'
+import * as common from '@/store/modules/common.js'
 
 
 export default createStore({
@@ -19,5 +21,6 @@ export default createStore({
     rooms, users, tabs,
     roomPosts, participations,
     attachments, assignments,
+    chat, common,
   }
 })

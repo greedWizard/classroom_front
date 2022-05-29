@@ -16,8 +16,12 @@
 </template>
 
 <script>
-export default {
+import store from '@/store'
 
+export default {
+  async created() {
+    store.dispatch('tabs/setTab', 'dialogs')
+  }
 }
 </script>
 

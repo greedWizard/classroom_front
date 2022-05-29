@@ -1,5 +1,10 @@
 <template>
   <div>
+        <h2>Dialog</h2>
+        <button
+            class="btn btn-outline-secondary btn-sm"
+            @click="$router.go(-1)"
+        >Back</button> <hr>
       <ChatBox />
   </div>
 </template>
@@ -14,7 +19,6 @@ export default {
         ChatBox,
     },
     async setup() {
-        store.dispatch('tabs/setTab', 'dialogs')
         if(!store.getters['users/currentUser']){
             await store.dispatch('users/getCurrentUser')
         }

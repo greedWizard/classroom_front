@@ -53,19 +53,6 @@
 
                 <div class="form-outline mb-4">
                     <input
-                        v-model="currentUser.last_name"
-                        type="text" id="last_name"
-                        class="form-control form-control-lg"
-                    />
-                    <label class="form-label" for="last_name">*Last Name 
-                        <span class="regError">
-                            {{ updateErrors.last_name }}
-                        </span>
-                    </label>
-                </div>
-
-                <div class="form-outline mb-4">
-                    <input
                         v-model="currentUser.middle_name"
                         id="middle_name"
                         class="form-control form-control-lg"
@@ -73,6 +60,19 @@
                     <label class="form-label" for="middle_name">Middle Name 
                         <span class="regError">
                             {{ updateErrors.middle_name }}
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input
+                        v-model="currentUser.last_name"
+                        type="text" id="last_name"
+                        class="form-control form-control-lg"
+                    />
+                    <label class="form-label" for="last_name">*Last Name 
+                        <span class="regError">
+                            {{ updateErrors.last_name }}
                         </span>
                     </label>
                 </div>
@@ -155,7 +155,6 @@ export default {
                     password: this.currentUser.password,
                     repeat_password: this.currentUser.repeat_password,
                 })
-                console.log(requestBody)
             }
 
             Object.assign(requestBody, {
@@ -175,9 +174,7 @@ export default {
             updateErrors: 'users/registrationErrors',
         }),
         disableAccept() {
-            return !this.currentUser.confirm_password || (
-                !this.currentUser.repeat_password && this.currentUser.password
-            )
+            return !this.currentUser.confirm_password   
         },
     },
 }
