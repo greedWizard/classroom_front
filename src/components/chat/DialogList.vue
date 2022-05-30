@@ -16,7 +16,7 @@
     >
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">
-                {{ message.sender.id === currentUser.id ? message.sender.full_name : message.reciever.full_name }}
+                {{ message.sender.id === currentUser.id ? message.reciever.full_name : message.sender.full_name }}
             </h5>
             <small class="text-muted">{{ moment(message.created_at).fromNow() }}</small>
         </div>
