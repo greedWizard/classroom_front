@@ -3,7 +3,7 @@
     <h2>My dialogs</h2>
     <button
         class="btn btn-outline-secondary btn-sm"
-        @click="$router.go(-1)"
+        @click="$router.back()"
     >Back</button> <hr>
     <DialogList />
 </div>

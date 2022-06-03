@@ -39,7 +39,8 @@
             <div class="form-outline mb-4">
                 <input v-model="password" type="password" id="password" class="form-control form-control-lg" />
                 <label class="form-label" for="password">*Password 
-                </label>
+                </label> <br>
+                <a href="#" class="mb-4">Reset password</a> <br>
             </div>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="remember_me">
