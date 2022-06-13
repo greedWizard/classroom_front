@@ -23,6 +23,10 @@ export default {
         const route = useRoute()
         await store.dispatch('rooms/getRoom', route.params.id)
         await store.dispatch('roomPosts/fetch', route.params.id)
+
+        if(!store.getters['participations/my']) {
+            await store.dispatch('participations/my', route.params.id)
+        }
         store.commit(
             'rooms/SET_CAN_MODERATE',
             store.getters['rooms/item'].author.id === store.getters['users/currentUser'].id,

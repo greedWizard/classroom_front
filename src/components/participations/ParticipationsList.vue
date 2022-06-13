@@ -37,6 +37,16 @@
                       ✏️
                   </button>
                 </template>
+                <template v-else-if="myParticipation.can_remove_participants 
+                                      && participation.user.id !== currentUser.id">
+                    <span
+                      class="badge bg-danger rounded-pill"
+                      style="cursor: pointer;"
+                      @click="removeParticipant(participation)"
+                    >
+                      remove
+                  </span>
+                </template>
             </li>
         </ol>
       </div>
@@ -50,14 +60,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import store from '@/store'
+
+
 export default {
-    props: {
-        participations: Array
-    },
     computed: {
       ...mapGetters({
         currentUser: 'users/currentUser',
         myParticipation: 'participations/my',
+        participations: 'participations/items',
       })
     },
     methods: {
@@ -68,6 +79,12 @@ export default {
             senderId: this.currentUser.id,
             recieverId: recieverId,
           }
+        })
+      },
+      async removeParticipant(participation) {
+        await store.dispatch('participations/delete', {
+          roomId: participation.room_id,
+          userId: participation.user.id,
         })
       }
     }

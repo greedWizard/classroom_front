@@ -11,7 +11,7 @@
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#participationsModal"
-            @click="getParticipations($route.params.id)"
+            @click="getParticipations"
         >
             Show Members &#128101; {{ room.participations_count }}
         </button>
@@ -77,7 +77,8 @@
 <script>
 import RoomPostList from '@/components/roomposts/RoomPostList.vue'
 import ParticipationsList from '@/components/participations/ParticipationsList.vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
+import store from '@/store'
 
 
 export default {
@@ -112,9 +113,9 @@ export default {
                 console.error(e)
             }
         },
-        ...mapActions({
-            getParticipations: 'participations/getParticipations',
-        })
+        async getParticipations() {
+            await store.dispatch('participations/getParticipations', this.$route.params.id)
+        },
     },
 }
 </script>

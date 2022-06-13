@@ -4,7 +4,7 @@
   </div>
   <div class="content-container">
 
-  <div class="container-fluid">
+    <div class="container-fluid">
       <!-- Main component for a primary marketing message or call to action -->
       <router-view />
     </div>

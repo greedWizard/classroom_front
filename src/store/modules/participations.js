@@ -76,5 +76,26 @@ export const actions = {
             commit('SET_ERRORS', e.response.body.detail)
 
         }
+    },
+    async delete({ commit, state }, { roomId, userId, }) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try { 
+            await client.apis.participation.delete({
+                room_id: roomId,
+                user_id: userId,
+            }, {
+                requestInterceptor: (request) => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                },
+            })
+            commit('SET_ITEMS', state.items.filter(e => e.user.id !== userId ))
+            commit('SET_ERRORS', {})
+        } catch (e) {
+            console.error(e)
+            commit('SET_ERRORS', e.response.body.detail)
+
+        }
     }
 }
