@@ -1,4 +1,4 @@
-# lateron_front
+# classpace_front
 
 ## Project setup
 ```
