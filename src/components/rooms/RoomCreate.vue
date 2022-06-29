@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="main-wrapper">
     <section class="vh-100">
     <div class="container">
         <div class="row d-flex align-items-center">
@@ -21,6 +21,15 @@
                 />
             </div>
 
+            <div v-if="!isCapchaValid" class="capcha-container">
+                <VueClientRecaptcha
+                :value="capchaInputValue"
+                @isValid="checkValidCaptcha"
+                @getCode="getCaptchaCode" 
+                />
+                <input v-model="capchaInputValue" type="text" class="form-control form-control-lg" />
+            </div>
+
             <button
                 type="submit"
                 class="btn btn-primary btn-lg btn-block ml-4 mb-4"
@@ -35,17 +44,34 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import VueClientRecaptcha from 'vue-client-recaptcha'
+import store from '@/store'
+import { ref } from "vue";
 
 export default {
+    components: {
+        VueClientRecaptcha,
+    },
     data() {
         return {
             name: '',
             description: '',
         }
     },
+    setup() {
+        const capchaInputValue = ref(null)
+        const checkValidCaptcha = (value) => {
+            store.commit('rooms/SET_CAPCHA_VALIDATION', value)
+        };
+        return {
+            capchaInputValue,
+            checkValidCaptcha,
+        };
+    },
     computed: {
         ...mapGetters({
-            errors: 'rooms/errors'
+            errors: 'rooms/errors',
+            isCapchaValid: 'rooms/capchaValid'
         })
     },
     methods: {
@@ -53,15 +79,20 @@ export default {
             createRoom: 'rooms/createRoom'
         }),
         async createNewRoom() {
-            const requestBody = {
+
+            if (this.isCapchaValid){
+                const requestBody = {
                 name: this.name,
                 description: this.description,
-            }
-            await this.createRoom(requestBody)
+                }
+                await this.createRoom(requestBody)
 
-            if(Object.keys(this.errors).length == 0) {
-                alert('Room created')
-                this.$router.push({ name: 'room-list' })
+                if(Object.keys(this.errors).length == 0) {
+                    alert('Room created')
+                    this.$router.push({ name: 'room-list' })
+                }
+            }else{
+                alert("Неправильно введена reCapcha")
             }
         }
     }
@@ -69,5 +100,7 @@ export default {
 </script>
 
 <style>
-
+.capcha-container {
+    margin-bottom: 20px;
+}
 </style>

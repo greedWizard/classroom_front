@@ -7,6 +7,7 @@ export const state = {
     items: [],
     errors: {},
     canModerate: false,
+    capchaValid: false,
 }
 
 export const getters = {
@@ -21,7 +22,10 @@ export const getters = {
     },
     canModerate(state) {
         return state.canModerate
-    }
+    },
+    capchaValid(state) {
+        return state.capchaValid
+    },
 }
 
 export const mutations = {
@@ -36,6 +40,9 @@ export const mutations = {
     },
     SET_CAN_MODERATE(state, canModerate) {
         state.canModerate = canModerate
+    },
+    SET_CAPCHA_VALIDATION(state, item) {
+        state.capchaValid = item
     }
 }
 

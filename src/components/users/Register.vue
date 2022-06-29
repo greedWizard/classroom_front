@@ -106,7 +106,11 @@
                     </span>
                 </label>
             </div>
-
+                <VueClientRecaptcha
+                    :value="capchaInputValue"
+                    @isValid="checkValidCaptcha"
+                />
+                <input v-model="capchaInputValue" type="text" class="form-control form-control-lg" />
             <hr>
 
             <!-- Submit button -->
@@ -118,10 +122,10 @@
             </form>
         </div>
         
-        <div class="col-md-8 col-lg-7 col-xl-6">
-            <img src="@/images/users/registration.svg"
-            class="img-fluid" alt="Phone image">
-        </div>
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <img src="@/images/users/registration.svg"
+                class="img-fluid" alt="Phone image">
+            </div>
         </div>
     </div>
     </section>
@@ -130,8 +134,24 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { ref } from "vue";
+import VueClientRecaptcha from 'vue-client-recaptcha'
+import store from '@/store'
 
 export default {
+    components: {
+        VueClientRecaptcha
+    },
+    setup() {
+        const capchaInputValue = ref(null)
+        const checkValidCaptcha = (value) => {
+            store.commit('users/SET_CAPCHA_VALIDATION', value)
+        };
+        return {
+            capchaInputValue,
+            checkValidCaptcha,
+        };
+    },
     data() {
         return {
             first_name: '',
@@ -160,18 +180,25 @@ export default {
                 accept_eula: this.accept_eula,
             }
             e.preventDefault()
-            await this.registerUser(requestBody)
 
-            if(Object.keys(this.errors).length == 0) {
-                alert('Registration Success! Check out your email to activate profile!')
-                this.$router.push({ name: 'login' })
+            if (this.isCapchaValid){
+                await this.registerUser(requestBody)
+
+                if(Object.keys(this.errors).length == 0) {
+                    alert('Registration Success! Check out your email to activate profile!')
+                    this.$router.push({ name: 'login' })
+                }
+            }
+            else{
+                alert("Неправильно введена reCapcha")
             }
         }
     },
     computed: {
         ...mapGetters({
             user: 'users/currentUser',
-            errors: 'users/registrationErrors'
+            errors: 'users/registrationErrors',
+            isCapchaValid: 'users/capchaValid'
         })
     },
 }

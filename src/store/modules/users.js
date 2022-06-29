@@ -10,6 +10,7 @@ export const state = {
     loginError: undefined,
     errors: {},
     acessToken: undefined,
+    capchaValid: false,
 }
 
 export const getters = {
@@ -27,7 +28,10 @@ export const getters = {
     },
     isAuthenticated(state) {
         return Boolean(state.currentUser || localStorage.getItem('accessToken'))
-    }
+    },
+    capchaValid(state) {
+        return state.capchaValid
+    },
 }
 
 export const mutations = {
@@ -45,6 +49,9 @@ export const mutations = {
     },
     SET_ACCESS_TOKEN(state, token) {
         state.accessToken = token
+    },
+    SET_CAPCHA_VALIDATION(state, item) {
+        state.capchaValid = item
     }
 }
 
