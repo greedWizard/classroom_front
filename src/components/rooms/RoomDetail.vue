@@ -13,8 +13,15 @@
             data-bs-target="#participationsModal"
             @click="getParticipations"
         >
-            Show Members &#128101; {{ room.participations_count }}
+            Показать участников &#128101; {{ room.participations_count }}
         </button>
+        <button
+        class="btn btn-info btn-sm mb-4 btn-margin"       
+        @click="goToHomeworks"
+        >
+            Показать домашние работы &#128214; {{ room.participations_count }}
+        </button>
+
         <ParticipationsList :participations="participations"/>
     <div>
     <div v-if="canModerate">
@@ -116,10 +123,15 @@ export default {
         async getParticipations() {
             await store.dispatch('participations/getParticipations', this.$route.params.id)
         },
+        async goToHomeworks() {
+            this.$router.push({ name: 'all-homeworks'})
+        },
     },
 }
 </script>
 
-<style>
-
+<style scoped>
+.btn-margin {
+    margin-left: 20px;
+}
 </style>

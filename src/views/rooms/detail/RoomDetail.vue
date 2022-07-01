@@ -32,6 +32,11 @@ export default {
             store.getters['rooms/item'].author.id === store.getters['users/currentUser'].id,
         )
         return {}
+    },
+    methods: {
+        getet() {
+            this.$store.dispatch
+        }
     }
 }
 </script>
