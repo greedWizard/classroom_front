@@ -31,6 +31,7 @@
             </div>
 
             <button
+                :disabled="isDisabled"
                 type="submit"
                 class="btn btn-primary btn-lg btn-block ml-4 mb-4"
                 @click="createNewRoom"
@@ -56,6 +57,7 @@ export default {
         return {
             name: '',
             description: '',
+            isDisabled: false,
         }
     },
     setup() {
@@ -79,6 +81,9 @@ export default {
             createRoom: 'rooms/createRoom'
         }),
         async createNewRoom() {
+            
+            this.isDisabled = true
+            setTimeout(() => this.isDisabled = false, 500);
 
             if (this.isCapchaValid){
                 const requestBody = {

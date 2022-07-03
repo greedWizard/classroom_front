@@ -26,6 +26,7 @@
         </div>
         <div class="d-grid gap-2">
             <button
+                :disabled="isDisabled"
                 class="btn btn-outline-success btn-sm"
                 type="button"
                 @click="createAssignment"
@@ -49,6 +50,11 @@ export default {
         AttachmentControl,
         AttachmentsList,
     },
+    data() {
+        return {
+            isDisabled: false
+        }
+    },
     computed: {
         ...mapGetters({
             assignment: 'assignments/item',
@@ -61,6 +67,8 @@ export default {
     },
     methods: {
         async createAssignment() {
+            this.isDisabled = true
+            setTimeout(() => this.isDisabled = false, 500);
             const attachmentsToUpload = this.attachments.filter(attachment => !attachment.id)
 
             if(!this.assignment) {

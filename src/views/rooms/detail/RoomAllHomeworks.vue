@@ -16,25 +16,19 @@ export default {
     components: {
         AssignmentsList
     },
-
     async setup() {
         const route = useRoute()
-
-        // await store.dispatch('rooms/getRoom', route.params.id)
         // await store.dispatch('assignments/fetchForTeacher', route.params.roomPostId)
         return {
             route
         }
     },
-    methods: {
+        methods: {
 
     },
     computed: {
         // ...mapGetters({
-        //     roomPost: 'roomPosts/item',
         //     assignments: 'assignments/items',
-        //     assignment: 'assignments/item',
-        //     attachments: 'attachments/items',
         // })
     }
 }

@@ -7,7 +7,6 @@ export const state = {
     items: [],
     errors: {},
     my: undefined,
-    homeworks: {},
 }
 
 export const getters = {
@@ -20,9 +19,6 @@ export const getters = {
     my(state) {
         return state.my
     },
-    homeworks(state) {
-        return state.getHomeworks
-    }
 }
 
 export const mutations = {
@@ -38,9 +34,6 @@ export const mutations = {
     SET_MY(state, item) {
         state.my = item
     },
-    SET_HOMEWORKS(state, item){
-        state.homeworks = item
-    }
 }
 
 export const actions = {
@@ -64,27 +57,6 @@ export const actions = {
 
         }
     },
-    // async getHomeworks({ commit }, { roomId, userId }) {
-    //     const client = await apiClient
-    //     const accessToken = localStorage.getItem('accessToken')
-        
-    //     try { 
-    //         const response = await client.apis.participation.getHomeworks({
-    //             room_id: roomId,
-    //             user_id: userId,
-    //         }, {
-    //             requestInterceptor: (request) => {
-    //                 request.headers.Authorization = `Bearer ${accessToken}`
-    //             },
-    //         })
-    //         commit('SET_ITEMS', response.body)
-    //         commit('SET_ERRORS', {})
-    //     } catch (e) {
-    //         console.error(e)
-    //         commit('SET_ERRORS', e.response.body.detail)
-
-    //     }
-    // },
     async my({ commit }, roomId) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
