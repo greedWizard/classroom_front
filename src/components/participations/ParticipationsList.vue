@@ -12,7 +12,7 @@
         >
             <li
                 class="list-group-item d-flex justify-content-between align-items-start"
-                v-for="participation in participations"
+                v-for="participation in participations.items"
                 :key="participation.id"
             >
                 <div class="ms-2 me-auto">

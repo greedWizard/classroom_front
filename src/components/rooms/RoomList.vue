@@ -1,32 +1,27 @@
 <template>
   <div>
-    <SearchByField 
-      :target="rooms"
-      :fieldName="'name'"
-      @onFilter="value => {this.filteredRooms = value}" 
-    />
     <div class="list-group">
       <div
-        v-for="room in filteredRooms"
-        :key="room.id"
+        v-for="roomParticipation in roomParticipations.items"
+        :key="roomParticipation.id"
       >
         <a
           href="#"
           class="list-group-item list-group-item-action flex-column align-items-start"
-          :class="{ active: room.is_moderator }"
-          :id="'room#' + room.id"
+          :class="{ active: roomParticipation.is_moderator }"
+          :id="'room#' + roomParticipation.room.id"
         >
           <div
             class="d-flex w-100 justify-content-between"
           >
-            <h5 @click="goToRoom(room.id)"
-              class="mb-1">{{ room.name }} &#128101; {{ room.participations_count }}
+            <h5 @click="goToRoom(roomParticipation.room.id)"
+              class="mb-1">{{ roomParticipation.room.name }} &#128101; {{ roomParticipation.room.participations_count }}
             </h5><hr>
-            <div v-if="room.is_moderator">
+            <div v-if="roomParticipation.is_moderator">
               <small>
                 <button
                   class="btn btn-success btn-sm"
-                  @click="$router.push({ name: 'room-edit', params: { id: room.id } })"
+                  @click="$router.push({ name: 'room-edit', params: { id: roomParticipation.room.id } })"
                 >
                   Edit &#x270E;
                 </button>
@@ -34,19 +29,19 @@
               <small>
                 <button
                   class="btn btn-danger btn-sm mr-4"
-                  @click="removeRoom(room.id)"
+                  @click="removeRoom(roomParticipation.room.id)"
                 >
                   Dissolve
                 </button>
               </small>
             </div>
           </div>
-          <div @click="goToRoom(room.id)">
+          <div @click="goToRoom(roomParticipation.room.id)">
             <div>
-              Created: {{ room.author.first_name }}  {{ room.author.last_name }}
+              Created: {{ roomParticipation.room.author.first_name }}  {{ roomParticipation.room.author.last_name }}
             </div> <hr>
-            <p class="mb-1">{{ room.description }}</p>
-            <small>{{ room.created_at }} </small>
+            <p class="mb-1">{{ roomParticipation.room.description }}</p>
+            <small>{{ roomParticipation.room.created_at }} </small>
           </div>
         </a>
         <hr>
@@ -57,14 +52,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import SearchByField from '@/components/SearchByField.vue'
 import store from '@/store'
 
 
 export default {
-  components: {
-    SearchByField,
-  },
   data() {
     return {
       filteredRooms: store.getters['rooms/items'],
@@ -72,13 +63,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      rooms: 'rooms/items',
+      roomParticipations: 'rooms/items',
     }) 
   },
   methods: {
     ...mapActions({
       deleteRoom: 'rooms/deleteRoom',
-      rooms: 'rooms/items',
     }),
     async goToRoom(roomId) {
       this.$router.push({ name: 'room-detail', params: { id: roomId } })

@@ -37,8 +37,8 @@ export const actions = {
         const accessToken = localStorage.getItem('accessToken')
         
         try {
-            const response = await client.apis.assignment.getAssignmentsForRoomPost({
-                assigned_room_post_id: roomPostId
+            const response = await client.apis.assignment.fetchAssignments({
+                post_id: roomPostId
             }, {
                 requestInterceptor: request => {
                     request.headers.Authorization = `Bearer ${accessToken}`
@@ -156,7 +156,7 @@ export const actions = {
 
         try {
             const response = await client.apis.assignment.myInPost({
-                room_post_id: postId
+                post_id: postId
             }, {
                 requestInterceptor: (request) => {
                     request.headers.Authorization = `Bearer ${accessToken}`

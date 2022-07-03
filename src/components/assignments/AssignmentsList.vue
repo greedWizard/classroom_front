@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="assignment in assignments" :key="assignment.id">
+                <tr v-for="assignment in assignments.items" :key="assignment.id">
                     <AssignmentListItem :assignment="assignment" />
                 </tr>
             </tbody>

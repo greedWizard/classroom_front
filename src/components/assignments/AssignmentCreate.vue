@@ -67,7 +67,7 @@ export default {
                 await store.dispatch(
                     'assignments/create',
                     {
-                        assigned_room_post_id: this.$route.params.roomPostId,
+                        post_id: this.$route.params.roomPostId,
                     }
                 )
             } else if (this.assignment.status_request_changes) {
