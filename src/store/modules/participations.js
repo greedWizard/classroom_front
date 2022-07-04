@@ -33,7 +33,7 @@ export const mutations = {
     },
     SET_MY(state, item) {
         state.my = item
-    }
+    },
 }
 
 export const actions = {

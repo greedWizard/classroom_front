@@ -8,6 +8,7 @@ import ProfileIndex from '../views/users/profile/ProfileIndex.vue'
 import LogOut from '../views/users/LogOut.vue'
 import RoomIndex from '../views/rooms/RoomIndex.vue'
 import RoomList from '../views/rooms/RoomList.vue'
+import RoomAllHomeworks from '@/views/rooms/detail/RoomAllHomeworks.vue' 
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomEdit from '../views/rooms/detail/RoomEdit.vue'
 import RoomDetail from '../views/rooms/detail/RoomDetail.vue'
@@ -82,6 +83,12 @@ const routes = [
         path: ':id',
         name: 'room-detail',
         component: RoomDetail,
+        meta: { loginRequired: true },
+      },
+      {
+        path: ':id/homeworks',
+        name: 'all-homeworks',
+        component: RoomAllHomeworks,
         meta: { loginRequired: true },
       },
       {

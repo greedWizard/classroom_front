@@ -70,7 +70,7 @@
                             type="button"
                             class="btn btn-primary"
                             @click="handlePostCreate"
-                            :disabled="!roomPost.type"
+                            :disabled="!roomPost.type || isDisabled"
                         >{{ roomPost.id ? 'Update' : 'Create' }} room post</button>
                     </div>
                 </div>
@@ -90,7 +90,8 @@ import store from '@/store'
 export default {
     data() {
         return {
-            queryType: this.$route.query.type || 'material'
+            queryType: this.$route.query.type || 'material',
+            isDisabled: false,
         }
     },
     components: {
@@ -113,7 +114,9 @@ export default {
             attachFiles: 'roomPosts/attachFilesToRoomPost',
             updateRoomPost: 'roomPosts/update',
         }),
-        async handlePostCreate() {
+        async handlePostCreate() {  
+            this.isDisabled = true
+            setTimeout(() => this.isDisabled = false, 500);
             const attachmentsToUpload = this.attachments.filter(attachment => !attachment.id)
             var isCreated = false;
 

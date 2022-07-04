@@ -42,8 +42,6 @@ export default {
     computed: {
         ...mapGetters({
             assignments: 'assignments/items',
-            assignment: 'assignments/item',
-            attachments: 'attachments/items',
         })
     },
     async setup() {
