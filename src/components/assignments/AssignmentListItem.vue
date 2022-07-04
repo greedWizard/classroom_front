@@ -21,7 +21,10 @@
     <span
         @click="$router.push({
             name: 'roomPost-detail',
-            params: $route.params,
+            params: {
+                roomId: $route.params.roomId,
+                roomPostId: assignment.post_id
+            },
         })"
         class="badge rounded-pill bg-secondary mb-4"
         style="cursor: pointer; margin-left: 1rem;"
@@ -47,12 +50,10 @@ export default {
     components: {
     },
     props: {
-        // TODO: Переименовать в assignmentRow
         assignment: Object,
     },
     methods: {
         async setAssignment() {
-            // store.commit('assignments/SET_ITEM', this.assignment)
             await store.dispatch('assignments/get', this.assignment.id)
             store.commit('attachments/SET_ITEMS', store.getters['assignments/item'].attachments || [])
         }

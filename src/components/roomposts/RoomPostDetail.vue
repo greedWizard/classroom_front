@@ -34,7 +34,7 @@
                             params: {
                                 roomPostId: post.id ,
                                 roomId: $route.params.roomId,
-                            } 
+                            }
                         })"
                         v-if="myParticipation.can_examine"
                     >

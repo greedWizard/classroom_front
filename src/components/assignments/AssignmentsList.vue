@@ -30,8 +30,6 @@
 import { mapGetters } from 'vuex'
 import AssignmentListItem from '@/components/assignments/AssignmentListItem.vue'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
-import store from '@/store'
-import { useRoute } from 'vue-router'
 
 
 export default {
@@ -44,13 +42,7 @@ export default {
             assignments: 'assignments/items',
         })
     },
-    async setup() {
-        const route = useRoute()
-        const roomPost = store.getters['roomPosts/item']
-        
-        if(Object.keys(roomPost).length === 0) {
-            store.dispatch('roomPosts/get', route.params.roomPostId)
-        }
+    methods: {
     }
 }
 </script>
