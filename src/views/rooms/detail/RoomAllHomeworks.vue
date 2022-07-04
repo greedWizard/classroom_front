@@ -17,7 +17,7 @@ export default {
     },
     async setup() {
         const route = useRoute()
-        await store.dispatch('assignments/getAllUserHomeworks', route.params.roomId)
+        await store.dispatch('assignments/getRoomAssigments', route.params.roomId)
     },
         methods: {
     },

@@ -51,7 +51,7 @@ export const actions = {
             commit('SET_ERRORS', e)
         }
     },
-    async getAllUserHomeworks({ commit }, roomId) {
+    async getRoomAssigments({ commit }, roomId) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')
         

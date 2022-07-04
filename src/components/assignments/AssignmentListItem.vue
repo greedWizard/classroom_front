@@ -29,7 +29,7 @@
         class="badge rounded-pill bg-secondary mb-4"
         style="cursor: pointer; margin-left: 1rem;"
     >
-        Go to homework post{{$route.params}}
+        Go to homework post
     </span>
     <span
         class="badge rounded-pill bg-success mb-4"
@@ -50,7 +50,6 @@ export default {
     components: {
     },
     props: {
-        // TODO: Переименовать в assignmentRow
         assignment: Object,
     },
     methods: {

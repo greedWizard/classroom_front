@@ -20,7 +20,6 @@
             </tbody>
         </table>
     </div>
-    <button @click="checkRoomPostId" >check_roomPostId</button>
     <div class="modal fade" id="assignmentDetailModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignmentDetailModalLabel" aria-hidden="true">
         <AssignmentDetail />
     </div>
@@ -31,8 +30,6 @@
 import { mapGetters } from 'vuex'
 import AssignmentListItem from '@/components/assignments/AssignmentListItem.vue'
 import AssignmentDetail from '../assignments/AssignmentDetail.vue'
-import store from '@/store'
-import { useRoute } from 'vue-router'
 
 
 export default {
@@ -46,9 +43,6 @@ export default {
         })
     },
     methods: {
-        checkRoomPostId() {
-            console.log(this.assignments)
-        }
     }
 }
 </script>
