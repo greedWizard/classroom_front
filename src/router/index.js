@@ -86,7 +86,7 @@ const routes = [
         meta: { loginRequired: true },
       },
       {
-        path: ':id/homeworks',
+        path: ':roomId/homeworks',
         name: 'all-homeworks',
         component: RoomAllHomeworks,
         meta: { loginRequired: true },

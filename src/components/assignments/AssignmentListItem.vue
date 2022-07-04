@@ -21,12 +21,15 @@
     <span
         @click="$router.push({
             name: 'roomPost-detail',
-            params: $route.params,
+            params: {
+                roomId: $route.params.roomId,
+                roomPostId: assignment.post_id
+            },
         })"
         class="badge rounded-pill bg-secondary mb-4"
         style="cursor: pointer; margin-left: 1rem;"
     >
-        Go to homework post
+        Go to homework post{{$route.params}}
     </span>
     <span
         class="badge rounded-pill bg-success mb-4"
@@ -52,7 +55,6 @@ export default {
     },
     methods: {
         async setAssignment() {
-            // store.commit('assignments/SET_ITEM', this.assignment)
             await store.dispatch('assignments/get', this.assignment.id)
             store.commit('attachments/SET_ITEMS', store.getters['assignments/item'].attachments || [])
         }

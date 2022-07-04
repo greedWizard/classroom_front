@@ -8,9 +8,8 @@
 
 <script>
 import AssignmentsList from '@/components/assignments/AssignmentsList.vue'
-//import store from '@/store'
+import store from '@/store'
 import { useRoute } from 'vue-router'
-//import { mapGetters } from 'vuex'
 
 export default {
     components: {
@@ -18,22 +17,12 @@ export default {
     },
     async setup() {
         const route = useRoute()
-        // await store.dispatch('assignments/fetchForTeacher', route.params.roomPostId)
-        return {
-            route
-        }
+        await store.dispatch('assignments/getAllUserHomeworks', route.params.roomId)
     },
         methods: {
-
     },
-    computed: {
-        // ...mapGetters({
-        //     assignments: 'assignments/items',
-        // })
-    }
 }
 </script>
 
 <style scoped>
-
 </style>

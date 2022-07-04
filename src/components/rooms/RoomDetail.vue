@@ -123,8 +123,8 @@ export default {
         async getParticipations() {
             await store.dispatch('participations/getParticipations', this.$route.params.id)
         },
-        async goToHomeworks() {
-            this.$router.push({ name: 'all-homeworks'})
+        goToHomeworks() {
+            this.$router.push({ name: 'all-homeworks', params:{roomId: this.$route.params.id}})
         },
     },
 }

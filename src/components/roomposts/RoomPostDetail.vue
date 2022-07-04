@@ -34,7 +34,7 @@
                             params: {
                                 roomPostId: post.id ,
                                 roomId: $route.params.roomId,
-                            } 
+                            }
                         })"
                         v-if="myParticipation.can_examine"
                     >
@@ -79,6 +79,9 @@ export default {
     },
     created() {
         store.commit('attachments/SET_ITEMS', this.post.attachments)
+    },
+    mounted() {
+        console.log(this.$route.params)
     },
     computed: {
         allowEdit() {

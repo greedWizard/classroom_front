@@ -51,6 +51,26 @@ export const actions = {
             commit('SET_ERRORS', e)
         }
     },
+    async getAllUserHomeworks({ commit }, roomId) {
+        const client = await apiClient
+        const accessToken = localStorage.getItem('accessToken')
+        
+        try {
+            const response = await client.apis.assignment.fetchAssignments({
+                room_id: roomId
+            }, {
+                requestInterceptor: request => {
+                    request.headers.Authorization = `Bearer ${accessToken}`
+                }
+            })
+            
+            commit('SET_ITEMS', response.body)
+            console.log(response.body)
+        } catch (e) {
+            console.error(e)
+            commit('SET_ERRORS', e)
+        }
+    },
     async create(context, requestBody) {
         const client = await apiClient
         const accessToken = localStorage.getItem('accessToken')

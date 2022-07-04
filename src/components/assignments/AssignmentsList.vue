@@ -20,6 +20,7 @@
             </tbody>
         </table>
     </div>
+    <button @click="checkRoomPostId" >check_roomPostId</button>
     <div class="modal fade" id="assignmentDetailModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignmentDetailModalLabel" aria-hidden="true">
         <AssignmentDetail />
     </div>
@@ -44,12 +45,9 @@ export default {
             assignments: 'assignments/items',
         })
     },
-    async setup() {
-        const route = useRoute()
-        const roomPost = store.getters['roomPosts/item']
-        
-        if(Object.keys(roomPost).length === 0) {
-            store.dispatch('roomPosts/get', route.params.roomPostId)
+    methods: {
+        checkRoomPostId() {
+            console.log(this.assignments)
         }
     }
 }
