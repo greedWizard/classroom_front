@@ -106,13 +106,16 @@
                     </span>
                 </label>
             </div>
+
+            <div v-if="!isCapchaValid">
                 <VueClientRecaptcha
                     :value="capchaInputValue"
                     @isValid="checkValidCaptcha"
                 />
                 <input v-model="capchaInputValue" type="text" class="form-control form-control-lg" />
+            </div>
+            
             <hr>
-
             <!-- Submit button -->
             <button
                 type="submit"

@@ -41,17 +41,20 @@
                     </label> <br>
                     <a href="#" class="mb-4">Reset password</a> <br>
                 </div>
+
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="remember_me">
                     <label class="form-label" for="accept_eula">Stay Logged In</label>
                 </div>
-                <VueClientRecaptcha
+                
+                <div v-if="!isCapchaValid">
+                    <VueClientRecaptcha 
                     :value="capchaInputValue"
                     @isValid="checkValidCaptcha"
                 />
-                <input v-model="capchaInputValue" type="text" class="form-control form-control-lg" />
+                    <input v-model="capchaInputValue" type="text" class="form-control form-control-lg" />
+                </div>
                 <hr>
-
                 <!-- Submit button -->
                 <p class="loginError">{{ error }}</p>
 
