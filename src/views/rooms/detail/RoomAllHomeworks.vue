@@ -1,6 +1,10 @@
 <template>
     <div>
         <h1>Здесь все ваши домашние работы</h1>
+        <button
+        class="btn btn-outline-secondary btn-sm mb-4"
+        @click="$router.push(`/rooms/${$route.params.roomId}`)"
+        >вернуться в комнату</button>
         <hr>
         <assignments-list />
     </div>
@@ -19,7 +23,7 @@ export default {
         const route = useRoute()
         await store.dispatch('assignments/getRoomAssigments', route.params.roomId)
     },
-        methods: {
+    methods: {
     },
 }
 </script>
